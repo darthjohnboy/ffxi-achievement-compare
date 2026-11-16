@@ -178,7 +178,7 @@ a { color: var(--teal); }
    and rank badge spill under the neighbouring card. The total is its own
    full-width row, centred, so it never sits awkwardly left-aligned
    underneath the name. */
-.card-head > div:first-child { flex: 1 1 150px; min-width: 0; }
+.card-head > div:first-child { flex: 1 1 150px; min-width: 0; text-align: center; }
 .card-head h3 { font-family: "Cinzel", serif; font-size: 1.18rem; font-weight: 700; margin: 0; overflow-wrap: break-word; }
 .card-head .sub { color: var(--muted); font-size: 0.85rem; }
 .card-total { text-align: center; flex: 1 1 100%; min-width: 0; }
@@ -199,8 +199,8 @@ a { color: var(--teal); }
   color: var(--gold);
   font-weight: 700;
   border-radius: 999px;
-  padding: 0.05rem 0.5rem;
-  font-size: 0.85rem;
+  padding: 0.1rem 0.6rem;
+  font-size: 1rem;
   margin-bottom: 0.2rem;
 }
 .flavor { color: var(--muted); font-style: italic; margin: 0.4rem 0; }
@@ -263,7 +263,7 @@ table.breakdown tr.total-row td.num { font-family: "Cinzel", serif; color: var(-
 .title-groups b { font-size: 1.15rem; }
 .title-groups i { display: block; font-style: normal; font-size: 0.75rem; color: var(--muted); }
 .badge-line { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
-.card-head .badge-line { margin: 0.35rem 0 0; }
+.card-head .badge-line { margin: 0.35rem 0 0; justify-content: center; }
 .group-block { margin-top: 0.8rem; }
 
 /* Who-has-what — vertical list of milestone cards */
