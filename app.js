@@ -683,12 +683,56 @@ function setStatus(text, kind) {
   if (el) { el.textContent = text; el.className = 'sync-status ' + (kind || ''); }
 }
 
+// Combined linkshell totals: every player's points added together.
+function linkshellTotals(rows) {
+  const totals = { jobs: 0, masterLevels: 0, crafts: 0, rema: 0, titles: 0, checklist: 0, total: 0, players: rows.length, synced: 0, titlesCompleted: 0 };
+  for (const r of rows) {
+    const s = r.scores;
+    totals.jobs += s.jobs;
+    totals.masterLevels += s.masterLevels;
+    totals.crafts += s.crafts;
+    totals.rema += s.rema;
+    totals.titles += s.titles;
+    totals.checklist += s.checklist;
+    totals.total += s.total;
+    if (r.sync) {
+      totals.synced++;
+      totals.titlesCompleted += r.sync.titles.completed;
+    }
+  }
+  return totals;
+}
+
+function renderLinkshellTotal(rows) {
+  const el = document.getElementById('linkshell-total');
+  if (!el) return;
+  const t = linkshellTotals(rows);
+  let html = '<table class="breakdown">'
+    + '<tr><td>Jobs</td><td class="num">' + fmt(t.jobs) + '</td></tr>'
+    + '<tr><td>Master Levels</td><td class="num">' + fmt(t.masterLevels) + '</td></tr>'
+    + '<tr><td>Crafts</td><td class="num">' + fmt(t.crafts) + '</td></tr>'
+    + '<tr><td>Relics</td><td class="num">' + fmt(t.rema) + '</td></tr>'
+    + '<tr><td>Titles</td><td class="num">' + fmt(t.titles) + '</td></tr>'
+    + '<tr><td>Checklist</td><td class="num">' + fmt(t.checklist) + '</td></tr>'
+    + '<tr class="total-row"><td>Combined total</td><td class="num">' + fmt(t.total) + '</td></tr>'
+    + '</table>'
+    + '<p class="meta-line">' + t.players + ' players &middot; ' + t.synced + ' synced &middot; ' + fmt(t.titlesCompleted) + ' titles &middot; ' + fmt(t.masterLevels) + ' Master Levels</p>';
+  html += '<table class="breakdown"><tr><td><b>Player</b></td><td class="num"><b>Points</b></td><td class="num"><b>Share</b></td></tr>';
+  for (const r of rows) {
+    const pct = t.total > 0 ? (100 * r.scores.total / t.total).toFixed(1) + '%' : '0.0%';
+    html += '<tr><td>' + esc(r.player.name) + '</td><td class="num">' + fmt(r.scores.total) + '</td><td class="num">' + pct + '</td></tr>';
+  }
+  html += '</table>';
+  el.innerHTML = html;
+}
+
 function renderAll(baseline, liveByName, statusText, statusKind) {
   const rows = computeBoard(baseline.players, liveByName);
   renderLeaderboard(rows);
   const cardsEl = document.getElementById('cards');
   if (cardsEl) cardsEl.innerHTML = rows.map(renderCard).join('');
   renderMatrix(rows);
+  renderLinkshellTotal(rows);
   setStatus(statusText, statusKind);
   const updatedEl = document.getElementById('last-updated');
   if (updatedEl) {
@@ -728,7 +772,7 @@ if (typeof module !== 'undefined' && module.exports) {
     effectiveJobs, effectiveCrafts, effectiveRema, scorePlayer, computeBoard, badgeFor, sumFields,
     loadLiveData, loadLiveDataWithRetry, loadLiveWithCache,
     saveLiveCache, loadLiveCache, cachedStatusText, API_TIMEOUT_MS, CACHE_KEY,
-    shortDateTime, renderLeaderboard, renderCard, renderMatrix,
+    shortDateTime, renderLeaderboard, renderCard, renderMatrix, linkshellTotals, renderLinkshellTotal,
     milestoneProgress,
     MILESTONES, MISSION_FIELDS, QUEST_FIELDS, WARP_FIELDS, KEY_ITEM_FIELDS,
     TITLE_RATES, CHECK_RATES, ML_RATE,
