@@ -73,8 +73,9 @@ h2 + .hint { margin-top: -0.4rem; }
 .hint { color: var(--muted); font-size: 0.9rem; }
 a { color: var(--teal); }
 
-/* Hero — full-bleed. The Muse page uses the hero.webp photo here; this
-   copy has no photo asset, so the same dark gradient veil stands alone. */
+/* Hero — full-bleed. Abyssea art behind the dark gradient veil, which keeps
+   the title readable. The veil is strongest at the bottom, where the title
+   sits; the image is cropped to its upper third so the logo stays out. */
 .hero {
   margin: 0 -16px;
   height: 230px;
@@ -84,9 +85,7 @@ a { color: var(--teal); }
   justify-content: flex-end;
   background:
     linear-gradient(180deg, rgba(13, 24, 26, 0.15) 0%, rgba(13, 24, 26, 0.78) 100%),
-    linear-gradient(135deg, #0e5a56 0%, #123f3c 55%, #1d2b2d 100%);
-  background-size: cover;
-  background-position: center 62%;
+    url("assets/ffxi-hero.jpg") center 30% / cover no-repeat;
 }
 .hero h1 {
   font-family: "Cinzel", serif;
