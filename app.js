@@ -14,7 +14,7 @@
      is JSONP (a <script> tag with a ?callback= parameter), which is
      what loadLiveData() below does. The endpoint is slow — cold start
      plus the Google redirect chain measured 17.6s / 17.7s / 33.9s —
-     so the timeout is 30s with one retry, and the last good live
+     so the timeout is 40s with one retry, and the last good live
      response is cached in localStorage: cached data renders
      immediately and survives a failed refresh. Only a page with no
      cache at all falls back to the baseline — and says so. It never
@@ -24,7 +24,7 @@
 // Paste the Apps Script web app /exec URL here after deploying.
 // Leave it empty to run on baseline data only.
 const API_URL = 'https://script.google.com/macros/s/AKfycbwgEpK90nzPaQQrJsY4dfiTFZsdidzV_l5orx8k08-E_I0KJCx1t2V-Cy17zJ4_CRvgEw/exec';
-const API_TIMEOUT_MS = 30000; // Apps Script cold start + redirect chain measured 17.6–33.9s
+const API_TIMEOUT_MS = 40000; // Apps Script cold start + redirect chain measured 17.6–33.9s
 
 /* ---------------- Scoring (must match the Muse page) ---------------- */
 
@@ -398,7 +398,7 @@ function loadLiveData(url, timeoutMs) {
 
 // The Apps Script endpoint is slow (cold start + redirect chain: the
 // parent measured 17.6s / 17.7s / 33.9s), so a fresh load often outruns
-// even a 30s timeout. The last good live response is cached locally so
+// even a 40s timeout. The last good live response is cached locally so
 // the page can render it immediately and keep showing it when a refresh
 // fails, instead of dropping to baseline. The cache never expires on
 // its own — the status line always shows when it was fetched, so its
