@@ -41,6 +41,26 @@ body {
   font-size: 16px;
   line-height: 1.5;
 }
+/* Fixed Vana'diel vista behind the whole page. The photo layer sits at the
+   back; the veil above it washes it out so the cards stay readable. The
+   veil is parchment-tinted in the light theme, dark in the dark theme. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: url("assets/ffxi-background.jpg") center / cover no-repeat;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: rgba(243, 239, 227, 0.85);
+}
+@media (prefers-color-scheme: dark) {
+  body::after { background: rgba(13, 24, 26, 0.80); }
+}
 .wrap { max-width: 1060px; margin: 0 auto; padding: 0 16px 56px; }
 main section { margin-top: 34px; }
 h2 {
