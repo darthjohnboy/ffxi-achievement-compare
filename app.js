@@ -15,7 +15,7 @@
 
 // Paste the Apps Script web app /exec URL here after deploying.
 // Leave it empty to run on baseline data only.
-const API_URL = '';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwgEpK90nzPaQQrJsY4dfiTFZsdidzV_l5orx8k08-E_I0KJCx1t2V-Cy17zJ4_CRvgEw/exec';
 const API_TIMEOUT_MS = 12000;
 
 /* ---------------- Scoring (must match the Muse page) ---------------- */
