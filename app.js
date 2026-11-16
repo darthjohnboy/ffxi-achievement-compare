@@ -6,17 +6,25 @@
    - Live XIchecklist syncs come from the Google Apps Script web app
      below, which reads the "FFXI Achievement Sync" Google Form,
      checks each submission's key privately, and serves clean JSON.
+     Syncs carry titles, RoE, missions, quests, warps and key items;
+     v1.5 syncs also carry jobs, per-job Master Levels, crafts and
+     REMA, which replace the baseline values for that player.
    - The Apps Script CANNOT be fetched with plain fetch(): it sends no
      CORS headers, so browsers block the response. The working pattern
      is JSONP (a <script> tag with a ?callback= parameter), which is
-     what loadLiveData() below does. If the script can't be reached,
-     the page falls back to the baseline and says so — it never breaks.
+     what loadLiveData() below does. The endpoint is slow — cold start
+     plus the Google redirect chain measured 17.6s / 17.7s / 33.9s —
+     so the timeout is 30s with one retry, and the last good live
+     response is cached in localStorage: cached data renders
+     immediately and survives a failed refresh. Only a page with no
+     cache at all falls back to the baseline — and says so. It never
+     breaks.
    ===================================================================== */
 
 // Paste the Apps Script web app /exec URL here after deploying.
 // Leave it empty to run on baseline data only.
 const API_URL = 'https://script.google.com/macros/s/AKfycbwgEpK90nzPaQQrJsY4dfiTFZsdidzV_l5orx8k08-E_I0KJCx1t2V-Cy17zJ4_CRvgEw/exec';
-const API_TIMEOUT_MS = 12000;
+const API_TIMEOUT_MS = 30000; // Apps Script cold start + redirect chain measured 17.6–33.9s
 
 /* ---------------- Scoring (must match the Muse page) ---------------- */
 
@@ -133,10 +141,18 @@ function scoreChecklist(sync) {
     + keyItems * CHECK_RATES.keyItems;
 }
 
-// Master Levels: 1 point each. A live sync's masterlevels count is
-// authoritative (it covers all 22 jobs); otherwise sum the baseline
-// per-job ML figures from FFXIAH, skipping jobs whose ML is unknown.
+// Master Levels: 1 point each. A live sync's per-job Master Level map
+// (v1.5 payloads) is authoritative and REPLACES the counts.masterlevels
+// total — the two are never added together. Without the map, a live
+// sync's masterlevels count is authoritative (it covers all 22 jobs);
+// otherwise sum the baseline per-job ML figures from FFXIAH, skipping
+// jobs whose ML is unknown.
 function scoreMasterLevels(player, sync) {
+  if (sync && sync.masterLevels && Object.keys(sync.masterLevels).length) {
+    let s = 0;
+    for (const v of Object.values(sync.masterLevels)) s += v;
+    return s * ML_RATE;
+  }
   if (sync && sync.counts && sync.counts.masterlevels && typeof sync.counts.masterlevels.completed === 'number') {
     return sync.counts.masterlevels.completed * ML_RATE;
   }
@@ -159,6 +175,93 @@ function badgeFor(titleCount) {
 
 /* ---------------- Sync payload normalisation ---------------- */
 
+// v1.5 sync fields (read live from the game by the autosync fork):
+//   jobs          { "WAR": 99, ... } — all 22 jobs, uppercase 3-letter codes
+//   master_levels { "WAR": 40, ... } — per-job Master Levels, 0-50
+//   crafts        { "Smithing": 68, ... } — all 10 crafts, keys as in baseline.json
+//   rema          [ { "name": "Caladbolg", "item_level": 119 }, ... ]
+// The receiver forwards the whole payload as-is, so these arrive inside
+// each player's sync object with no receiver change. When a field is
+// absent the baseline.json values are used instead (see effective*).
+
+function isPlainObject(v) { return !!v && typeof v === 'object' && !Array.isArray(v); }
+
+// Keep only finite numeric values, floored; null when nothing usable.
+function normalizeSyncLevelMap(map) {
+  if (!isPlainObject(map)) return null;
+  const out = {};
+  for (const [k, v] of Object.entries(map)) {
+    if (typeof v === 'number' && isFinite(v)) out[k] = Math.floor(v);
+  }
+  return Object.keys(out).length ? out : null;
+}
+
+function normalizeSyncJobs(jobs) {
+  const m = normalizeSyncLevelMap(jobs);
+  if (!m) return null;
+  const out = {};
+  for (const [code, lvl] of Object.entries(m)) out[String(code).toUpperCase()] = lvl;
+  return out;
+}
+
+function normalizeSyncMasterLevels(ml) { return normalizeSyncLevelMap(ml); }
+
+function normalizeSyncCrafts(crafts) { return normalizeSyncLevelMap(crafts); }
+
+// Convert synced REMA items to the baseline shape
+// ({ kind: 'rema'|'rod'|'escutcheon', name, stage }). Extras are
+// identified by name, mirroring baseline.json: fishing rods and
+// escutcheons are the 50-point extras, never 119/150-point weapons.
+function normalizeSyncRema(rema) {
+  if (!Array.isArray(rema)) return null;
+  const out = [];
+  for (const r of rema) {
+    if (!r || typeof r.name !== 'string') continue;
+    const name = r.name;
+    const ilvl = typeof r.item_level === 'number' ? r.item_level : null;
+    if (/fishing rod/i.test(name) || /^lu shang/i.test(name)) out.push({ kind: 'rod', name, stage: null });
+    else if (/escutcheon/i.test(name)) out.push({ kind: 'escutcheon', name, stage: null });
+    else out.push({ kind: 'rema', name, stage: ilvl });
+  }
+  return out.length ? out : null;
+}
+
+// The fork sends "Leathercraft"; baseline.json spells it "Leathercrafting".
+const CRAFT_KEY_ALIASES = { Leathercraft: 'Leathercrafting' };
+
+// Effective (merged) values for one player: synced fields win, baseline
+// fills anything the sync didn't send. Jobs/crafts merge per key;
+// REMA replaces wholesale (an array can't merge per key).
+function effectiveJobs(player, sync) {
+  if (!sync || !sync.jobs) return player.jobs || null;
+  const base = player.jobs || {};
+  const out = {};
+  const codes = new Set([...Object.keys(base), ...Object.keys(sync.jobs)]);
+  for (const code of codes) {
+    const lvl = sync.jobs[code] != null ? sync.jobs[code] : (base[code] ? base[code].level : null);
+    if (lvl == null) continue;
+    let ml = null;
+    if (sync.masterLevels && sync.masterLevels[code] != null) ml = sync.masterLevels[code];
+    else if (base[code] && base[code].ml != null) ml = base[code].ml;
+    out[code] = { level: lvl, ml };
+  }
+  return Object.keys(out).length ? out : null;
+}
+
+function effectiveCrafts(player, sync) {
+  if (!sync || !sync.crafts) return player.crafts || null;
+  const out = Object.assign({}, player.crafts || {});
+  for (const [name, lvl] of Object.entries(sync.crafts)) {
+    out[CRAFT_KEY_ALIASES[name] || name] = lvl;
+  }
+  return Object.keys(out).length ? out : null;
+}
+
+function effectiveRema(player, sync) {
+  if (!sync || !sync.rema) return player.rema || null;
+  return sync.rema;
+}
+
 // Turn a raw sync payload (as served by the Apps Script) into the
 // shape the page uses. Returns null if the payload is unusable.
 function normalizeSync(payload) {
@@ -171,6 +274,10 @@ function normalizeSync(payload) {
     syncedAt: payload.synced_at || null,
     counts: c,
     scalars: payload.scalars || {},
+    jobs: normalizeSyncJobs(payload.jobs),
+    masterLevels: normalizeSyncMasterLevels(payload.master_levels),
+    crafts: normalizeSyncCrafts(payload.crafts),
+    rema: normalizeSyncRema(payload.rema),
     titles: { completed: titlesCount.completed, total: titlesCount.total },
     groups: {
       quest: groups.quest || { completed: 0, total: 0 },
@@ -193,16 +300,25 @@ function normalizeSync(payload) {
 }
 
 // Merge one baseline player with their live sync (if any) and score it.
+// Jobs/crafts/REMA come from the sync when present, baseline otherwise;
+// scoring is identical either way. `effective` is the merged player
+// the card and the milestone matrix render from.
 function scorePlayer(player, livePayload) {
   const sync = livePayload ? normalizeSync(livePayload) : null;
-  const jobs = scoreJobs(player);
+  const effective = Object.assign({}, player, {
+    jobs: effectiveJobs(player, sync),
+    crafts: effectiveCrafts(player, sync),
+    rema: effectiveRema(player, sync),
+  });
+  const jobs = scoreJobs(effective);
   const masterLevels = scoreMasterLevels(player, sync);
-  const crafts = scoreCrafts(player);
-  const rema = scoreRema(player);
+  const crafts = scoreCrafts(effective);
+  const rema = scoreRema(effective);
   const titles = scoreTitles(sync);
   const checklist = scoreChecklist(sync);
   return {
     player,
+    effective,
     sync,
     scores: { jobs, masterLevels, crafts, rema, titles, checklist, total: jobs + masterLevels + crafts + rema + titles + checklist },
   };
@@ -274,6 +390,106 @@ function loadLiveData(url, timeoutMs) {
     script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + encodeURIComponent(cbName);
     document.head.appendChild(script);
   });
+}
+
+/* ---------------- Live-data cache (localStorage) ---------------- */
+
+// The Apps Script endpoint is slow (cold start + redirect chain: the
+// parent measured 17.6s / 17.7s / 33.9s), so a fresh load often outruns
+// even a 30s timeout. The last good live response is cached locally so
+// the page can render it immediately and keep showing it when a refresh
+// fails, instead of dropping to baseline. The cache never expires on
+// its own — the status line always shows when it was fetched, so its
+// age is visible. All localStorage access is guarded: a missing or
+// blocked localStorage must never break rendering.
+const CACHE_KEY = 'ffxi-live-v1';
+
+function safeLocalStorage() {
+  try {
+    return (typeof localStorage !== 'undefined' && localStorage) ? localStorage : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Store a live response ({ players, ... }) with a fetch timestamp.
+// Only a response that actually carries players is worth caching.
+// Returns true when the cache was written.
+function saveLiveCache(data) {
+  if (!data || typeof data !== 'object' || !data.players || typeof data.players !== 'object'
+      || Object.keys(data.players).length === 0) return false;
+  const ls = safeLocalStorage();
+  if (!ls) return false;
+  try {
+    ls.setItem(CACHE_KEY, JSON.stringify({ fetchedAt: Date.now(), data }));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Read the cached live response. Returns { fetchedAt, data } or null
+// when there is no cache, or it is corrupt / the wrong shape.
+function loadLiveCache() {
+  const ls = safeLocalStorage();
+  if (!ls) return null;
+  let raw = null;
+  try { raw = ls.getItem(CACHE_KEY); } catch (e) { return null; }
+  if (!raw) return null;
+  let parsed = null;
+  try { parsed = JSON.parse(raw); } catch (e) { return null; }
+  if (!parsed || typeof parsed !== 'object') return null;
+  if (typeof parsed.fetchedAt !== 'number' || !isFinite(parsed.fetchedAt)) return null;
+  if (!parsed.data || typeof parsed.data !== 'object') return null;
+  if (!parsed.data.players || typeof parsed.data.players !== 'object') return null;
+  if (Object.keys(parsed.data.players).length === 0) return null;
+  return parsed;
+}
+
+// Honest status line for a cached render: always names when fetched.
+function cachedStatusText(fetchedAt) {
+  const when = shortDateTime(fetchedAt);
+  return 'Showing cached live data' + (when ? ' from ' + when : '') + '.';
+}
+
+// One retry after a timeout only — a cold Apps Script start can eat
+// the first attempt. Other failures (unreachable, no DOM) fail at once.
+function loadLiveDataWithRetry(url, timeoutMs) {
+  return loadLiveData(url, timeoutMs).catch((err) => {
+    if (err && err.message === 'API timed out') return loadLiveData(url, timeoutMs);
+    throw err;
+  });
+}
+
+// Render cached live data immediately when present, then refresh in
+// the background. A failed refresh keeps the cached data; only a page
+// with no cache at all falls back to baseline. `loader` is injectable
+// for tests; it defaults to the real JSONP load with one timeout retry.
+function loadLiveWithCache(baseline, loader) {
+  const cached = loadLiveCache();
+  if (cached) {
+    renderAll(baseline, cached.data.players, cachedStatusText(cached.fetchedAt) + ' Refreshing\u2026', 'warn');
+  } else {
+    renderAll(baseline, null, 'Loading live sync data\u2026', '');
+  }
+  const doLoad = loader || (() => loadLiveDataWithRetry(API_URL));
+  return doLoad()
+    .then((data) => {
+      saveLiveCache(data);
+      const live = data && data.players ? data.players : {};
+      const n = Object.keys(live).length;
+      renderAll(baseline, live, n ? 'Live sync data loaded (' + n + ' player' + (n === 1 ? '' : 's') + ').' : 'Sync API answered but returned no players — showing baseline data.', n ? 'ok' : 'warn');
+      return data;
+    })
+    .catch((err) => {
+      const stillCached = loadLiveCache();
+      if (stillCached) {
+        renderAll(baseline, stillCached.data.players, 'Live sync unavailable (' + err.message + ') — ' + cachedStatusText(stillCached.fetchedAt), 'warn');
+      } else {
+        renderAll(baseline, null, 'Sync data unavailable (' + err.message + ') — showing baseline data.', 'warn');
+      }
+      return null;
+    });
 }
 
 /* ---------------- Rendering ---------------- */
@@ -356,38 +572,40 @@ function renderCard(row) {
   if (p.masteryRank != null) html += '<p class="meta-line">Mastery Rank ' + p.masteryRank + '</p>';
 
   html += '<div class="card-detail">';
-  html += renderJobs(p);
-  html += renderCrafts(p);
-  html += renderRema(p);
+  html += renderJobs(row.effective.jobs);
+  html += renderCrafts(row.effective.crafts);
+  html += renderRema(row.effective.rema);
   html += renderSync(s);
   html += '</div></article>';
   return html;
 }
 
-function renderJobs(p) {
-  if (!p.jobs) return '<section class="detail-section"><h4>Jobs</h4><p class="na">Not available — FFXIAH page is empty or private.</p></section>';
+function renderJobs(jobs) {
+  if (!jobs) return '<section class="detail-section"><h4>Jobs</h4><p class="na">Not available — FFXIAH page is empty or private.</p></section>';
   const order = ['WAR', 'MNK', 'WHM', 'BLM', 'RDM', 'THF', 'PLD', 'DRK', 'BST', 'BRD', 'RNG', 'SAM', 'NIN', 'DRG', 'SMN', 'BLU', 'COR', 'PUP', 'DNC', 'SCH', 'GEO', 'RUN'];
   const tiles = order.map((abbr) => {
-    const j = p.jobs[abbr];
+    const j = jobs[abbr];
     if (!j) return '';
     return '<div class="job-tile' + (j.level >= 99 ? ' max' : '') + '"><span class="job-abbr">' + abbr + '</span><b>' + j.level + '</b>' + (j.ml != null ? '<span class="ml">ML ' + j.ml + '</span>' : '<span class="ml na">ML ?</span>') + '</div>';
   }).join('');
-  return '<section class="detail-section"><h4>Jobs — all 22 at 99</h4><div class="job-grid">' + tiles + '</div></section>';
+  const codes = Object.keys(jobs);
+  const allMax = codes.length === 22 && codes.every((c) => jobs[c].level >= 99);
+  return '<section class="detail-section"><h4>' + (allMax ? 'Jobs — all 22 at 99' : 'Jobs') + '</h4><div class="job-grid">' + tiles + '</div></section>';
 }
 
-function renderCrafts(p) {
-  if (!p.crafts) return '<section class="detail-section"><h4>Crafts</h4><p class="na">Not available — FFXIAH page is empty or private.</p></section>';
-  const rows = Object.entries(p.crafts).map(([name, lvl]) => countRow(name, { completed: lvl, total: 110 })).join('');
+function renderCrafts(crafts) {
+  if (!crafts) return '<section class="detail-section"><h4>Crafts</h4><p class="na">Not available — FFXIAH page is empty or private.</p></section>';
+  const rows = Object.entries(crafts).map(([name, lvl]) => countRow(name, { completed: lvl, total: 110 })).join('');
   return '<section class="detail-section"><h4>Crafts</h4>' + rows + '</section>';
 }
 
-function renderRema(p) {
-  if (!p.rema) return '<section class="detail-section"><h4>Ultimates (REMA)</h4><p class="na">Not available — FFXIAH page is empty or private.</p></section>';
-  const at119 = p.rema.filter((r) => r.kind === 'rema' && r.stage === 119);
-  const other = p.rema.filter((r) => r.kind === 'rema' && r.stage !== 119);
-  const extras = p.rema.filter((r) => r.kind !== 'rema');
+function renderRema(rema) {
+  if (!rema) return '<section class="detail-section"><h4>Ultimates (REMA)</h4><p class="na">Not available — FFXIAH page is empty or private.</p></section>';
+  const at119 = rema.filter((r) => r.kind === 'rema' && r.stage === 119);
+  const other = rema.filter((r) => r.kind === 'rema' && r.stage !== 119);
+  const extras = rema.filter((r) => r.kind !== 'rema');
   const chip = (r) => '<span class="chip">' + esc(r.name) + (r.stage ? ' <span class="stage">' + r.stage + '</span>' : '') + '</span>';
-  return '<section class="detail-section"><h4>Ultimates (' + p.rema.length + ')</h4>'
+  return '<section class="detail-section"><h4>Ultimates (' + rema.length + ')</h4>'
     + '<h5>119 (' + at119.length + ')</h5><div>' + at119.map(chip).join('') + '</div>'
     + (other.length ? '<h5>Below 119 (' + other.length + ')</h5><div>' + other.map(chip).join('') + '</div>' : '')
     + (extras.length ? '<h5>Extras</h5><div>' + extras.map(chip).join('') + '</div>' : '')
@@ -442,10 +660,13 @@ function renderMatrix(rows) {
   if (!el) return;
   el.innerHTML = MILESTONES.map((m) => {
     const spans = rows.map((r) => {
-      const v = milestoneValue(r.player, r.sync, m.check);
+      // Milestones read the merged player so a synced value counts the
+      // same way the card and the score do.
+      const p = r.effective || r.player;
+      const v = milestoneValue(p, r.sync, m.check);
       if (v === true) return '<span class="has">\u2713 ' + esc(r.player.name) + '</span>';
       if (v === false) {
-        const prog = milestoneProgress(r.player, r.sync, m);
+        const prog = milestoneProgress(p, r.sync, m);
         if (prog) return '<span class="prog">' + esc(r.player.name) + ' \u00b7 ' + fmt(prog.have) + '/' + fmt(prog.need) + '</span>';
         return '<span class="no">' + esc(r.player.name) + ' \u00b7 \u2014</span>';
       }
@@ -486,18 +707,7 @@ function init() {
         renderAll(baseline, null, 'Sync API not configured — showing baseline data only.', 'warn');
         return baseline;
       }
-      renderAll(baseline, null, 'Loading live sync data\u2026', '');
-      return loadLiveData(API_URL)
-        .then((data) => {
-          const live = data && data.players ? data.players : {};
-          const n = Object.keys(live).length;
-          renderAll(baseline, live, n ? 'Live sync data loaded (' + n + ' player' + (n === 1 ? '' : 's') + ').' : 'Sync API answered but returned no players — showing baseline data.', n ? 'ok' : 'warn');
-          return baseline;
-        })
-        .catch((err) => {
-          renderAll(baseline, null, 'Sync data unavailable (' + err.message + ') — showing baseline data.', 'warn');
-          return baseline;
-        });
+      return loadLiveWithCache(baseline).then(() => baseline);
     })
     .catch((err) => {
       setStatus('Could not load the page data: ' + err.message, 'error');
@@ -512,8 +722,11 @@ if (typeof document !== 'undefined') {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     scoreJobs, scoreCrafts, scoreRema, scoreTitles, scoreChecklist, scoreMasterLevels,
-    normalizeSync, scorePlayer, computeBoard, badgeFor, sumFields,
-    loadLiveData, shortDateTime, renderLeaderboard, renderCard, renderMatrix,
+    normalizeSync, normalizeSyncJobs, normalizeSyncMasterLevels, normalizeSyncCrafts, normalizeSyncRema,
+    effectiveJobs, effectiveCrafts, effectiveRema, scorePlayer, computeBoard, badgeFor, sumFields,
+    loadLiveData, loadLiveDataWithRetry, loadLiveWithCache,
+    saveLiveCache, loadLiveCache, cachedStatusText, API_TIMEOUT_MS, CACHE_KEY,
+    shortDateTime, renderLeaderboard, renderCard, renderMatrix,
     milestoneProgress,
     MILESTONES, MISSION_FIELDS, QUEST_FIELDS, WARP_FIELDS, KEY_ITEM_FIELDS,
     TITLE_RATES, CHECK_RATES, ML_RATE,
