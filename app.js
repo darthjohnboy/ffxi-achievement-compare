@@ -22,6 +22,7 @@ const API_TIMEOUT_MS = 12000;
 
 const TITLE_RATES = { quest: 10, mission: 20, nm: 25, battlefield: 50, master_trials: 100, other: 0 };
 const CHECK_RATES = { roe: 5, missions: 5, quests: 10, warps: 5, keyItems: 2 };
+const ML_RATE = 1; // 1 point per Master Level (added 2026-11-16)
 const BADGE_TIERS = [
   { at: 100, name: 'First Century' },
   { at: 250, name: 'Quarter Way There' },
@@ -132,6 +133,21 @@ function scoreChecklist(sync) {
     + keyItems * CHECK_RATES.keyItems;
 }
 
+// Master Levels: 1 point each. A live sync's masterlevels count is
+// authoritative (it covers all 22 jobs); otherwise sum the baseline
+// per-job ML figures from FFXIAH, skipping jobs whose ML is unknown.
+function scoreMasterLevels(player, sync) {
+  if (sync && sync.counts && sync.counts.masterlevels && typeof sync.counts.masterlevels.completed === 'number') {
+    return sync.counts.masterlevels.completed * ML_RATE;
+  }
+  if (!player.jobs) return 0;
+  let s = 0;
+  for (const j of Object.values(player.jobs)) {
+    if (typeof j.ml === 'number') s += j.ml;
+  }
+  return s * ML_RATE;
+}
+
 function badgeFor(titleCount) {
   let earned = null, next = null;
   for (const t of BADGE_TIERS) {
@@ -180,6 +196,7 @@ function normalizeSync(payload) {
 function scorePlayer(player, livePayload) {
   const sync = livePayload ? normalizeSync(livePayload) : null;
   const jobs = scoreJobs(player);
+  const masterLevels = scoreMasterLevels(player, sync);
   const crafts = scoreCrafts(player);
   const rema = scoreRema(player);
   const titles = scoreTitles(sync);
@@ -187,7 +204,7 @@ function scorePlayer(player, livePayload) {
   return {
     player,
     sync,
-    scores: { jobs, crafts, rema, titles, checklist, total: jobs + crafts + rema + titles + checklist },
+    scores: { jobs, masterLevels, crafts, rema, titles, checklist, total: jobs + masterLevels + crafts + rema + titles + checklist },
   };
 }
 
@@ -314,6 +331,7 @@ function renderCard(row) {
     + '<div class="card-total"><span class="rank-badge">#' + row.rank + '</span><b>' + fmt(sc.total) + '</b><span>points</span></div></header>'
     + '<div class="breakdown">'
     + '<div><span>Jobs</span><b>' + fmt(sc.jobs) + '</b></div>'
+    + '<div><span>Master Levels</span><b>' + fmt(sc.masterLevels) + '</b></div>'
     + '<div><span>Crafts</span><b>' + fmt(sc.crafts) + '</b></div>'
     + '<div><span>Relics</span><b>' + fmt(sc.rema) + '</b></div>'
     + '<div><span>Titles</span><b>' + fmt(sc.titles) + '</b></div>'
@@ -477,10 +495,10 @@ if (typeof document !== 'undefined') {
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
-    scoreJobs, scoreCrafts, scoreRema, scoreTitles, scoreChecklist,
+    scoreJobs, scoreCrafts, scoreRema, scoreTitles, scoreChecklist, scoreMasterLevels,
     normalizeSync, scorePlayer, computeBoard, badgeFor, sumFields,
     loadLiveData,
     MILESTONES, MISSION_FIELDS, QUEST_FIELDS, WARP_FIELDS, KEY_ITEM_FIELDS,
-    TITLE_RATES, CHECK_RATES,
+    TITLE_RATES, CHECK_RATES, ML_RATE,
   };
 }
