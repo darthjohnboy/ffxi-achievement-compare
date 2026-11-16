@@ -1,1 +1,1224 @@
-{"meta":{"baseline_date":"2026-11-15","baseline_source":"FFXIAH player pages, scraped 2026-11-15. Jobs/crafts/relics only change when someone re-scrapes; XIchecklist syncs (titles, RoE, missions, quests, warps, key items) arrive live from the sync API.","notes":["FFXIAH job figures are Master Levels, shown separately from the level (all listed jobs are 99).","Crafts cap at 70 per craft except the one craft taken to 110; Synergy caps at 80.","A null field means 'not available' (private or empty FFXIAH page) — never a guess."],"scoring":{"badges":"title badges at 100 / 250 / 500 / 750 / 1,000 titles","checklist":"RoE 5, missions 5, quests 10, warps 5, key items 2 (per completed item)","crafts":"2 pts per level up to 70 per craft + 1 bonus pt per level over 70","jobs":"1 pt per level + 100 per job at 99","rema":"250 per 119, 150 per 99-or-below REMA, 50 per extra (fishing rod / escutcheon)","titles":"quest 10, mission 20, NM 25, battlefield 50, Master Trials/endgame 100, other/ungrouped 0"},"subtitle":"Quetzalcoatl crew — jobs, crafts, relics, titles and checklist progress","title":"FFXI Achievement Compare"},"players":[{"crafts":{"Alchemy":70,"Bonecraft":60,"Clothcraft":70,"Cooking":13,"Fishing":8,"Goldsmithing":110,"Leathercrafting":70,"Smithing":68,"Synergy":80,"Woodworking":60},"id":"darthjohnboy","jobs":{"BLM":{"level":99,"ml":null},"BLU":{"level":99,"ml":null},"BRD":{"level":99,"ml":null},"BST":{"level":99,"ml":null},"COR":{"level":99,"ml":null},"DNC":{"level":99,"ml":null},"DRG":{"level":99,"ml":null},"DRK":{"level":99,"ml":null},"GEO":{"level":99,"ml":null},"MNK":{"level":99,"ml":null},"NIN":{"level":99,"ml":null},"PLD":{"level":99,"ml":null},"PUP":{"level":99,"ml":null},"RDM":{"level":99,"ml":null},"RNG":{"level":99,"ml":null},"RUN":{"level":99,"ml":null},"SAM":{"level":99,"ml":null},"SCH":{"level":99,"ml":null},"SMN":{"level":99,"ml":null},"THF":{"level":99,"ml":null},"WAR":{"level":99,"ml":null},"WHM":{"level":99,"ml":null}},"linkshells":null,"masteryRank":7,"name":"Darthjohnboy","nation":"San d'Oria","nationRank":10,"rema":[{"kind":"rema","name":"Godhands","stage":119},{"kind":"rema","name":"Tizona","stage":119},{"kind":"rema","name":"Sequence","stage":119},{"kind":"rema","name":"Chango","stage":119},{"kind":"rema","name":"Anguta","stage":119},{"kind":"rema","name":"Trishula","stage":119},{"kind":"rema","name":"Heishi Shorinken","stage":119},{"kind":"rema","name":"Gae Buide","stage":119},{"kind":"rema","name":"Nirvana","stage":119},{"kind":"rema","name":"Fail-Not","stage":119},{"kind":"rema","name":"Fomalhaut","stage":119},{"kind":"rema","name":"Aegis","stage":99},{"kind":"rema","name":"Marsyas","stage":99},{"kind":"rema","name":"Ochain","stage":90},{"kind":"rema","name":"Caladbolg","stage":80},{"kind":"rod","name":"Lu Shang's Fishing Rod","stage":null},{"kind":"escutcheon","name":"Toreutic Escutcheon","stage":null}],"server":"Quetzalcoatl","sync":null,"title":"Quetzalcoatl Plucker"},{"crafts":{"Alchemy":70,"Bonecraft":85,"Clothcraft":70,"Cooking":94,"Fishing":110,"Goldsmithing":70,"Leathercrafting":70,"Smithing":70,"Synergy":80,"Woodworking":70},"id":"stoutheart","jobs":{"BLM":{"level":99,"ml":40},"BLU":{"level":99,"ml":43},"BRD":{"level":99,"ml":50},"BST":{"level":99,"ml":39},"COR":{"level":99,"ml":50},"DNC":{"level":99,"ml":50},"DRG":{"level":99,"ml":50},"DRK":{"level":99,"ml":50},"GEO":{"level":99,"ml":47},"MNK":{"level":99,"ml":50},"NIN":{"level":99,"ml":42},"PLD":{"level":99,"ml":46},"PUP":{"level":99,"ml":41},"RDM":{"level":99,"ml":50},"RNG":{"level":99,"ml":42},"RUN":{"level":99,"ml":50},"SAM":{"level":99,"ml":50},"SCH":{"level":99,"ml":45},"SMN":{"level":99,"ml":42},"THF":{"level":99,"ml":43},"WAR":{"level":99,"ml":50},"WHM":{"level":99,"ml":42}},"linkshells":["AshlessChaps"],"masteryRank":8,"name":"Stoutheart","nation":"Bastok","nationRank":10,"rema":[{"kind":"rema","name":"Spharai","stage":119},{"kind":"rema","name":"Verethragna","stage":119},{"kind":"rema","name":"Godhands","stage":119},{"kind":"rema","name":"Mandau","stage":119},{"kind":"rema","name":"Carnwenhan","stage":119},{"kind":"rema","name":"Twashtar","stage":119},{"kind":"rema","name":"Aeneas","stage":119},{"kind":"rema","name":"Excalibur","stage":119},{"kind":"rema","name":"Burtgang","stage":119},{"kind":"rema","name":"Tizona","stage":119},{"kind":"rema","name":"Sequence","stage":119},{"kind":"rema","name":"Aymur","stage":119},{"kind":"rema","name":"Chango","stage":119},{"kind":"rema","name":"Anguta","stage":119},{"kind":"rema","name":"Trishula","stage":119},{"kind":"rema","name":"Heishi Shorinken","stage":119},{"kind":"rema","name":"Dojikiri Yasutsuna","stage":119},{"kind":"rema","name":"Mjollnir","stage":119},{"kind":"rema","name":"Yagrush","stage":119},{"kind":"rema","name":"Idris","stage":119},{"kind":"rema","name":"Mpu Gandring","stage":119},{"kind":"rema","name":"Helheim","stage":119},{"kind":"rema","name":"Ragnarok","stage":119},{"kind":"rema","name":"Caladbolg","stage":119},{"kind":"rema","name":"Epeolatry","stage":119},{"kind":"rema","name":"Lionheart","stage":119},{"kind":"rema","name":"Guttler","stage":119},{"kind":"rema","name":"Farsha","stage":119},{"kind":"rema","name":"Tri-edge","stage":119},{"kind":"rema","name":"Bravura","stage":119},{"kind":"rema","name":"Apocalypse","stage":119},{"kind":"rema","name":"Foenaria","stage":119},{"kind":"rema","name":"Gungnir","stage":119},{"kind":"rema","name":"Kikoku","stage":119},{"kind":"rema","name":"Amanomurakumo","stage":119},{"kind":"rema","name":"Claustrum","stage":119},{"kind":"rema","name":"Laevateinn","stage":119},{"kind":"rema","name":"Yoichinoyumi","stage":119},{"kind":"rema","name":"Fail-Not","stage":119},{"kind":"rema","name":"Annihilator","stage":119},{"kind":"rema","name":"Death Penalty","stage":119},{"kind":"rema","name":"Armageddon","stage":119},{"kind":"rema","name":"Fomalhaut","stage":119},{"kind":"rema","name":"Srivatsa","stage":119},{"kind":"rema","name":"Ochain","stage":99},{"kind":"rema","name":"Aegis","stage":99},{"kind":"rema","name":"Daurdabla","stage":99},{"kind":"rema","name":"Gjallarhorn","stage":99},{"kind":"rema","name":"Marsyas","stage":99},{"kind":"rod","name":"Lu Shang's Fishing Rod +1","stage":null},{"kind":"rod","name":"Ebisu Fishing Rod +1","stage":null},{"kind":"escutcheon","name":"Ossifier's Escutcheon","stage":null}],"server":"Quetzalcoatl","sync":null,"title":"Dynamis-Jeuno [D] Trespasser"},{"crafts":{"Alchemy":70,"Bonecraft":70,"Clothcraft":70,"Cooking":68,"Fishing":110,"Goldsmithing":70,"Leathercrafting":70,"Smithing":110,"Synergy":68,"Woodworking":70},"id":"enz","jobs":{"BLM":{"level":99,"ml":46},"BLU":{"level":99,"ml":50},"BRD":{"level":99,"ml":50},"BST":{"level":99,"ml":50},"COR":{"level":99,"ml":50},"DNC":{"level":99,"ml":50},"DRG":{"level":99,"ml":50},"DRK":{"level":99,"ml":50},"GEO":{"level":99,"ml":50},"MNK":{"level":99,"ml":50},"NIN":{"level":99,"ml":50},"PLD":{"level":99,"ml":null},"PUP":{"level":99,"ml":27},"RDM":{"level":99,"ml":50},"RNG":{"level":99,"ml":50},"RUN":{"level":99,"ml":50},"SAM":{"level":99,"ml":50},"SCH":{"level":99,"ml":50},"SMN":{"level":99,"ml":50},"THF":{"level":99,"ml":50},"WAR":{"level":99,"ml":50},"WHM":{"level":99,"ml":47}},"linkshells":["AshlessChaps","RustyRaccoonRaiders"],"masteryRank":7,"name":"Enz","nation":"Bastok","nationRank":10,"rema":[{"kind":"rema","name":"Godhands","stage":119},{"kind":"rema","name":"Mandau","stage":119},{"kind":"rema","name":"Carnwenhan","stage":119},{"kind":"rema","name":"Twashtar","stage":119},{"kind":"rema","name":"Aeneas","stage":119},{"kind":"rema","name":"Tizona","stage":119},{"kind":"rema","name":"Almace","stage":119},{"kind":"rema","name":"Sequence","stage":119},{"kind":"rema","name":"Chango","stage":119},{"kind":"rema","name":"Anguta","stage":119},{"kind":"rema","name":"Trishula","stage":119},{"kind":"rema","name":"Heishi Shorinken","stage":119},{"kind":"rema","name":"Dojikiri Yasutsuna","stage":119},{"kind":"rema","name":"Yagrush","stage":119},{"kind":"rema","name":"Idris","stage":119},{"kind":"rema","name":"Tishtrya","stage":119},{"kind":"rema","name":"Armageddon","stage":119},{"kind":"rema","name":"Mpu Gandring","stage":119},{"kind":"rema","name":"Epeolatry","stage":119},{"kind":"rema","name":"Lionheart","stage":119},{"kind":"rema","name":"Tri-edge","stage":119},{"kind":"rema","name":"Apocalypse","stage":119},{"kind":"rema","name":"Kikoku","stage":119},{"kind":"rema","name":"Nirvana","stage":119},{"kind":"rema","name":"Fomalhaut","stage":119},{"kind":"rema","name":"Srivatsa","stage":119},{"kind":"rema","name":"Daurdabla","stage":99},{"kind":"rema","name":"Gjallarhorn","stage":99},{"kind":"rema","name":"Marsyas","stage":99},{"kind":"rod","name":"Lu Shang's Fishing Rod +1","stage":null},{"kind":"escutcheon","name":"Smythe's Escutcheon","stage":null}],"server":"Quetzalcoatl","sync":null,"title":"Aello Abator"},{"crafts":{"Alchemy":70,"Bonecraft":70,"Clothcraft":70,"Cooking":70,"Fishing":90,"Goldsmithing":70,"Leathercrafting":70,"Smithing":110,"Synergy":80,"Woodworking":70},"id":"jessse","jobs":{"BLM":{"level":99,"ml":null},"BLU":{"level":99,"ml":null},"BRD":{"level":99,"ml":null},"BST":{"level":99,"ml":null},"COR":{"level":99,"ml":null},"DNC":{"level":99,"ml":null},"DRG":{"level":99,"ml":null},"DRK":{"level":99,"ml":null},"GEO":{"level":99,"ml":null},"MNK":{"level":99,"ml":null},"NIN":{"level":99,"ml":null},"PLD":{"level":99,"ml":null},"PUP":{"level":99,"ml":null},"RDM":{"level":99,"ml":null},"RNG":{"level":99,"ml":null},"RUN":{"level":99,"ml":null},"SAM":{"level":99,"ml":null},"SCH":{"level":99,"ml":null},"SMN":{"level":99,"ml":null},"THF":{"level":99,"ml":null},"WAR":{"level":99,"ml":null},"WHM":{"level":99,"ml":null}},"linkshells":["LethalAmbitions","ForeverAFK","ConquestReborn","GoblinBoomstick","AshlessChaps"],"masteryRank":null,"name":"Jessse","nation":"San d'Oria","nationRank":10,"rema":[{"kind":"rema","name":"Godhands","stage":119},{"kind":"rema","name":"Bravura","stage":119},{"kind":"rema","name":"Ukonvasara","stage":119},{"kind":"rema","name":"Chango","stage":119},{"kind":"rema","name":"Heishi Shorinken","stage":119},{"kind":"rema","name":"Dojikiri Yasutsuna","stage":119},{"kind":"rema","name":"Idris","stage":119},{"kind":"rema","name":"Epeolatry","stage":119},{"kind":"rema","name":"Laphria","stage":119},{"kind":"rema","name":"Fomalhaut","stage":119},{"kind":"rema","name":"Ochain","stage":85},{"kind":"rema","name":"Armageddon","stage":85},{"kind":"rema","name":"Kannagi","stage":80},{"kind":"rema","name":"Masamune","stage":80},{"kind":"rod","name":"Lu Shang's Fishing Rod","stage":null}],"server":"Quetzalcoatl","sync":null,"title":"Yumcax Logger"},{"crafts":null,"id":"sidd","jobs":null,"linkshells":["ConquestReborn","AshlessChaps","RustyRaccoonRaiders"],"masteryRank":7,"name":"Sidd","nation":"Bastok","nationRank":10,"rema":[{"kind":"rema","name":"Carnwenhan","stage":119},{"kind":"rema","name":"Aeneas","stage":119},{"kind":"rema","name":"Chango","stage":119},{"kind":"rema","name":"Trishula","stage":119},{"kind":"rema","name":"Heishi Shorinken","stage":119},{"kind":"rema","name":"Dojikiri Yasutsuna","stage":119},{"kind":"rema","name":"Yagrush","stage":119},{"kind":"rema","name":"Idris","stage":119},{"kind":"rema","name":"Mpu Gandring","stage":119},{"kind":"rema","name":"Fomalhaut","stage":119},{"kind":"rema","name":"Daurdabla","stage":99},{"kind":"rema","name":"Gjallarhorn","stage":99},{"kind":"rema","name":"Marsyas","stage":99},{"kind":"rema","name":"Loughnashade","stage":99},{"kind":"rod","name":"Lu Shang's Fishing Rod","stage":null}],"server":"Quetzalcoatl","sync":null,"title":"Dynamis-Jeuno [D] Trespasser"},{"crafts":null,"id":"makenshi","jobs":null,"linkshells":["NoizyTribe","WeSayHurray","ConquestReborn","AshlessChaps"],"masteryRank":8,"name":"Makenshi","nation":"Bastok","nationRank":10,"rema":null,"server":"Quetzalcoatl","sync":null,"title":"Crystal Stakes Cupholder"},{"crafts":null,"id":"derk","jobs":null,"linkshells":null,"masteryRank":null,"name":"Derk","nation":null,"nationRank":null,"rema":null,"server":"Quetzalcoatl","sync":null,"title":null},{"crafts":null,"id":"meeze","jobs":null,"linkshells":null,"masteryRank":null,"name":"Meeze","nation":null,"nationRank":null,"rema":null,"server":"Quetzalcoatl","sync":null,"title":null},{"crafts":null,"id":"rajatia","jobs":null,"linkshells":null,"masteryRank":null,"name":"Rajatia","nation":null,"nationRank":null,"rema":null,"server":"Quetzalcoatl","sync":null,"title":null}]}
+{
+ "meta": {
+  "baseline_date": "2026-11-15",
+  "baseline_source": "FFXIAH player pages, scraped 2026-11-15. Jobs/crafts/relics only change when someone re-scrapes; XIchecklist syncs (titles, RoE, missions, quests, warps, key items) arrive live from the sync API.",
+  "notes": [
+   "FFXIAH job figures are Master Levels, shown separately from the level (all listed jobs are 99).",
+   "Crafts cap at 70 per craft except the one craft taken to 110; Synergy caps at 80.",
+   "A null field means 'not available' (private or empty FFXIAH page) \u2014 never a guess."
+  ],
+  "scoring": {
+   "badges": "title badges at 100 / 250 / 500 / 750 / 1,000 titles",
+   "checklist": "RoE 5, missions 5, quests 10, warps 5, key items 2 (per completed item)",
+   "crafts": "2 pts per level up to 70 per craft + 1 bonus pt per level over 70",
+   "jobs": "1 pt per level + 100 per job at 99",
+   "rema": "250 per 119, 150 per 99-or-below REMA, 50 per extra (fishing rod / escutcheon)",
+   "titles": "quest 10, mission 20, NM 25, battlefield 50, Master Trials/endgame 100, other/ungrouped 0"
+  },
+  "subtitle": "Quetzalcoatl crew \u2014 jobs, crafts, relics, titles and checklist progress",
+  "title": "FFXI Achievement Compare"
+ },
+ "players": [
+  {
+   "crafts": {
+    "Alchemy": 70,
+    "Bonecraft": 60,
+    "Clothcraft": 70,
+    "Cooking": 13,
+    "Fishing": 8,
+    "Goldsmithing": 110,
+    "Leathercrafting": 70,
+    "Smithing": 68,
+    "Synergy": 80,
+    "Woodworking": 60
+   },
+   "id": "darthjohnboy",
+   "jobs": {
+    "BLM": {
+     "level": 99,
+     "ml": null
+    },
+    "BLU": {
+     "level": 99,
+     "ml": 39
+    },
+    "BRD": {
+     "level": 99,
+     "ml": 45
+    },
+    "BST": {
+     "level": 99,
+     "ml": 30
+    },
+    "COR": {
+     "level": 99,
+     "ml": 42
+    },
+    "DNC": {
+     "level": 99,
+     "ml": null
+    },
+    "DRG": {
+     "level": 99,
+     "ml": 50
+    },
+    "DRK": {
+     "level": 99,
+     "ml": 44
+    },
+    "GEO": {
+     "level": 99,
+     "ml": 29
+    },
+    "MNK": {
+     "level": 99,
+     "ml": 30
+    },
+    "NIN": {
+     "level": 99,
+     "ml": 33
+    },
+    "PLD": {
+     "level": 99,
+     "ml": 32
+    },
+    "PUP": {
+     "level": 99,
+     "ml": 31
+    },
+    "RDM": {
+     "level": 99,
+     "ml": 42
+    },
+    "RNG": {
+     "level": 99,
+     "ml": 30
+    },
+    "RUN": {
+     "level": 99,
+     "ml": 26
+    },
+    "SAM": {
+     "level": 99,
+     "ml": 39
+    },
+    "SCH": {
+     "level": 99,
+     "ml": 44
+    },
+    "SMN": {
+     "level": 99,
+     "ml": 26
+    },
+    "THF": {
+     "level": 99,
+     "ml": 30
+    },
+    "WAR": {
+     "level": 99,
+     "ml": 40
+    },
+    "WHM": {
+     "level": 99,
+     "ml": null
+    }
+   },
+   "linkshells": null,
+   "masteryRank": 7,
+   "name": "Darthjohnboy",
+   "nation": "San d'Oria",
+   "nationRank": 10,
+   "rema": [
+    {
+     "kind": "rema",
+     "name": "Godhands",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Tizona",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Sequence",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Chango",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Anguta",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Trishula",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Heishi Shorinken",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Gae Buide",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Nirvana",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Fail-Not",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Fomalhaut",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Aegis",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Marsyas",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Ochain",
+     "stage": 90
+    },
+    {
+     "kind": "rema",
+     "name": "Caladbolg",
+     "stage": 80
+    },
+    {
+     "kind": "rod",
+     "name": "Lu Shang's Fishing Rod",
+     "stage": null
+    },
+    {
+     "kind": "escutcheon",
+     "name": "Toreutic Escutcheon",
+     "stage": null
+    }
+   ],
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": "Quetzalcoatl Plucker"
+  },
+  {
+   "crafts": {
+    "Alchemy": 70,
+    "Bonecraft": 85,
+    "Clothcraft": 70,
+    "Cooking": 94,
+    "Fishing": 110,
+    "Goldsmithing": 70,
+    "Leathercrafting": 70,
+    "Smithing": 70,
+    "Synergy": 80,
+    "Woodworking": 70
+   },
+   "id": "stoutheart",
+   "jobs": {
+    "BLM": {
+     "level": 99,
+     "ml": 40
+    },
+    "BLU": {
+     "level": 99,
+     "ml": 43
+    },
+    "BRD": {
+     "level": 99,
+     "ml": 50
+    },
+    "BST": {
+     "level": 99,
+     "ml": 39
+    },
+    "COR": {
+     "level": 99,
+     "ml": 50
+    },
+    "DNC": {
+     "level": 99,
+     "ml": 50
+    },
+    "DRG": {
+     "level": 99,
+     "ml": 50
+    },
+    "DRK": {
+     "level": 99,
+     "ml": 50
+    },
+    "GEO": {
+     "level": 99,
+     "ml": 47
+    },
+    "MNK": {
+     "level": 99,
+     "ml": 50
+    },
+    "NIN": {
+     "level": 99,
+     "ml": 42
+    },
+    "PLD": {
+     "level": 99,
+     "ml": 46
+    },
+    "PUP": {
+     "level": 99,
+     "ml": 41
+    },
+    "RDM": {
+     "level": 99,
+     "ml": 50
+    },
+    "RNG": {
+     "level": 99,
+     "ml": 42
+    },
+    "RUN": {
+     "level": 99,
+     "ml": 50
+    },
+    "SAM": {
+     "level": 99,
+     "ml": 50
+    },
+    "SCH": {
+     "level": 99,
+     "ml": 45
+    },
+    "SMN": {
+     "level": 99,
+     "ml": 42
+    },
+    "THF": {
+     "level": 99,
+     "ml": 43
+    },
+    "WAR": {
+     "level": 99,
+     "ml": 50
+    },
+    "WHM": {
+     "level": 99,
+     "ml": 42
+    }
+   },
+   "linkshells": [
+    "AshlessChaps"
+   ],
+   "masteryRank": 8,
+   "name": "Stoutheart",
+   "nation": "Bastok",
+   "nationRank": 10,
+   "rema": [
+    {
+     "kind": "rema",
+     "name": "Spharai",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Verethragna",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Godhands",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Mandau",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Carnwenhan",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Twashtar",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Aeneas",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Excalibur",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Burtgang",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Tizona",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Sequence",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Aymur",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Chango",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Anguta",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Trishula",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Heishi Shorinken",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Dojikiri Yasutsuna",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Mjollnir",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Yagrush",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Idris",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Mpu Gandring",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Helheim",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Ragnarok",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Caladbolg",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Epeolatry",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Lionheart",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Guttler",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Farsha",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Tri-edge",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Bravura",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Apocalypse",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Foenaria",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Gungnir",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Kikoku",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Amanomurakumo",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Claustrum",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Laevateinn",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Yoichinoyumi",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Fail-Not",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Annihilator",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Death Penalty",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Armageddon",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Fomalhaut",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Srivatsa",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Ochain",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Aegis",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Daurdabla",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Gjallarhorn",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Marsyas",
+     "stage": 99
+    },
+    {
+     "kind": "rod",
+     "name": "Lu Shang's Fishing Rod +1",
+     "stage": null
+    },
+    {
+     "kind": "rod",
+     "name": "Ebisu Fishing Rod +1",
+     "stage": null
+    },
+    {
+     "kind": "escutcheon",
+     "name": "Ossifier's Escutcheon",
+     "stage": null
+    }
+   ],
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": "Dynamis-Jeuno [D] Trespasser"
+  },
+  {
+   "crafts": {
+    "Alchemy": 70,
+    "Bonecraft": 70,
+    "Clothcraft": 70,
+    "Cooking": 68,
+    "Fishing": 110,
+    "Goldsmithing": 70,
+    "Leathercrafting": 70,
+    "Smithing": 110,
+    "Synergy": 68,
+    "Woodworking": 70
+   },
+   "id": "enz",
+   "jobs": {
+    "BLM": {
+     "level": 99,
+     "ml": 46
+    },
+    "BLU": {
+     "level": 99,
+     "ml": 50
+    },
+    "BRD": {
+     "level": 99,
+     "ml": 50
+    },
+    "BST": {
+     "level": 99,
+     "ml": 50
+    },
+    "COR": {
+     "level": 99,
+     "ml": 50
+    },
+    "DNC": {
+     "level": 99,
+     "ml": 50
+    },
+    "DRG": {
+     "level": 99,
+     "ml": 50
+    },
+    "DRK": {
+     "level": 99,
+     "ml": 50
+    },
+    "GEO": {
+     "level": 99,
+     "ml": 50
+    },
+    "MNK": {
+     "level": 99,
+     "ml": 50
+    },
+    "NIN": {
+     "level": 99,
+     "ml": 50
+    },
+    "PLD": {
+     "level": 99,
+     "ml": null
+    },
+    "PUP": {
+     "level": 99,
+     "ml": 27
+    },
+    "RDM": {
+     "level": 99,
+     "ml": 50
+    },
+    "RNG": {
+     "level": 99,
+     "ml": 50
+    },
+    "RUN": {
+     "level": 99,
+     "ml": 50
+    },
+    "SAM": {
+     "level": 99,
+     "ml": 50
+    },
+    "SCH": {
+     "level": 99,
+     "ml": 50
+    },
+    "SMN": {
+     "level": 99,
+     "ml": 50
+    },
+    "THF": {
+     "level": 99,
+     "ml": 50
+    },
+    "WAR": {
+     "level": 99,
+     "ml": 50
+    },
+    "WHM": {
+     "level": 99,
+     "ml": 47
+    }
+   },
+   "linkshells": [
+    "AshlessChaps",
+    "RustyRaccoonRaiders"
+   ],
+   "masteryRank": 7,
+   "name": "Enz",
+   "nation": "Bastok",
+   "nationRank": 10,
+   "rema": [
+    {
+     "kind": "rema",
+     "name": "Godhands",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Mandau",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Carnwenhan",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Twashtar",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Aeneas",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Tizona",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Almace",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Sequence",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Chango",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Anguta",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Trishula",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Heishi Shorinken",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Dojikiri Yasutsuna",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Yagrush",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Idris",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Tishtrya",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Armageddon",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Mpu Gandring",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Epeolatry",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Lionheart",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Tri-edge",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Apocalypse",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Kikoku",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Nirvana",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Fomalhaut",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Srivatsa",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Daurdabla",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Gjallarhorn",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Marsyas",
+     "stage": 99
+    },
+    {
+     "kind": "rod",
+     "name": "Lu Shang's Fishing Rod +1",
+     "stage": null
+    },
+    {
+     "kind": "escutcheon",
+     "name": "Smythe's Escutcheon",
+     "stage": null
+    }
+   ],
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": "Aello Abator"
+  },
+  {
+   "crafts": {
+    "Alchemy": 70,
+    "Bonecraft": 70,
+    "Clothcraft": 70,
+    "Cooking": 70,
+    "Fishing": 90,
+    "Goldsmithing": 70,
+    "Leathercrafting": 70,
+    "Smithing": 110,
+    "Synergy": 80,
+    "Woodworking": 70
+   },
+   "id": "jessse",
+   "jobs": {
+    "BLM": {
+     "level": 99,
+     "ml": null
+    },
+    "BLU": {
+     "level": 99,
+     "ml": null
+    },
+    "BRD": {
+     "level": 99,
+     "ml": null
+    },
+    "BST": {
+     "level": 99,
+     "ml": null
+    },
+    "COR": {
+     "level": 99,
+     "ml": null
+    },
+    "DNC": {
+     "level": 99,
+     "ml": null
+    },
+    "DRG": {
+     "level": 99,
+     "ml": null
+    },
+    "DRK": {
+     "level": 99,
+     "ml": null
+    },
+    "GEO": {
+     "level": 99,
+     "ml": null
+    },
+    "MNK": {
+     "level": 99,
+     "ml": null
+    },
+    "NIN": {
+     "level": 99,
+     "ml": null
+    },
+    "PLD": {
+     "level": 99,
+     "ml": null
+    },
+    "PUP": {
+     "level": 99,
+     "ml": null
+    },
+    "RDM": {
+     "level": 99,
+     "ml": null
+    },
+    "RNG": {
+     "level": 99,
+     "ml": null
+    },
+    "RUN": {
+     "level": 99,
+     "ml": null
+    },
+    "SAM": {
+     "level": 99,
+     "ml": null
+    },
+    "SCH": {
+     "level": 99,
+     "ml": null
+    },
+    "SMN": {
+     "level": 99,
+     "ml": null
+    },
+    "THF": {
+     "level": 99,
+     "ml": null
+    },
+    "WAR": {
+     "level": 99,
+     "ml": null
+    },
+    "WHM": {
+     "level": 99,
+     "ml": null
+    }
+   },
+   "linkshells": [
+    "LethalAmbitions",
+    "ForeverAFK",
+    "ConquestReborn",
+    "GoblinBoomstick",
+    "AshlessChaps"
+   ],
+   "masteryRank": null,
+   "name": "Jessse",
+   "nation": "San d'Oria",
+   "nationRank": 10,
+   "rema": [
+    {
+     "kind": "rema",
+     "name": "Godhands",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Bravura",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Ukonvasara",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Chango",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Heishi Shorinken",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Dojikiri Yasutsuna",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Idris",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Epeolatry",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Laphria",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Fomalhaut",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Ochain",
+     "stage": 85
+    },
+    {
+     "kind": "rema",
+     "name": "Armageddon",
+     "stage": 85
+    },
+    {
+     "kind": "rema",
+     "name": "Kannagi",
+     "stage": 80
+    },
+    {
+     "kind": "rema",
+     "name": "Masamune",
+     "stage": 80
+    },
+    {
+     "kind": "rod",
+     "name": "Lu Shang's Fishing Rod",
+     "stage": null
+    }
+   ],
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": "Yumcax Logger"
+  },
+  {
+   "crafts": null,
+   "id": "sidd",
+   "jobs": null,
+   "linkshells": [
+    "ConquestReborn",
+    "AshlessChaps",
+    "RustyRaccoonRaiders"
+   ],
+   "masteryRank": 7,
+   "name": "Sidd",
+   "nation": "Bastok",
+   "nationRank": 10,
+   "rema": [
+    {
+     "kind": "rema",
+     "name": "Carnwenhan",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Aeneas",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Chango",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Trishula",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Heishi Shorinken",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Dojikiri Yasutsuna",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Yagrush",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Idris",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Mpu Gandring",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Fomalhaut",
+     "stage": 119
+    },
+    {
+     "kind": "rema",
+     "name": "Daurdabla",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Gjallarhorn",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Marsyas",
+     "stage": 99
+    },
+    {
+     "kind": "rema",
+     "name": "Loughnashade",
+     "stage": 99
+    },
+    {
+     "kind": "rod",
+     "name": "Lu Shang's Fishing Rod",
+     "stage": null
+    }
+   ],
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": "Dynamis-Jeuno [D] Trespasser"
+  },
+  {
+   "crafts": null,
+   "id": "makenshi",
+   "jobs": null,
+   "linkshells": [
+    "NoizyTribe",
+    "WeSayHurray",
+    "ConquestReborn",
+    "AshlessChaps"
+   ],
+   "masteryRank": 8,
+   "name": "Makenshi",
+   "nation": "Bastok",
+   "nationRank": 10,
+   "rema": null,
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": "Crystal Stakes Cupholder"
+  },
+  {
+   "crafts": null,
+   "id": "derk",
+   "jobs": null,
+   "linkshells": null,
+   "masteryRank": null,
+   "name": "Derk",
+   "nation": null,
+   "nationRank": null,
+   "rema": null,
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": null
+  },
+  {
+   "crafts": null,
+   "id": "meeze",
+   "jobs": null,
+   "linkshells": null,
+   "masteryRank": null,
+   "name": "Meeze",
+   "nation": null,
+   "nationRank": null,
+   "rema": null,
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": null
+  },
+  {
+   "crafts": null,
+   "id": "rajatia",
+   "jobs": null,
+   "linkshells": null,
+   "masteryRank": null,
+   "name": "Rajatia",
+   "nation": null,
+   "nationRank": null,
+   "rema": null,
+   "server": "Quetzalcoatl",
+   "sync": null,
+   "title": null
+  }
+ ]
+}
