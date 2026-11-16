@@ -338,7 +338,9 @@ function renderCard(row) {
   const badge = s ? badgeFor(s.titles.completed) : { earned: null, next: BADGE_TIERS[0] };
   let html = '<article class="card" id="card-' + esc(p.id) + '">'
     + '<header class="card-head"><div><h3>' + esc(p.name) + '</h3>'
-    + '<div class="sub">' + esc(p.server || '') + (p.nation ? ' &middot; ' + esc(p.nation) + (p.nationRank != null ? ' Rank ' + p.nationRank : '') : '') + '</div></div>'
+    + '<div class="sub">' + esc(p.server || '') + (p.nation ? ' &middot; ' + esc(p.nation) + (p.nationRank != null ? ' Rank ' + p.nationRank : '') : '') + '</div>'
+    + (badge.earned ? '<div class="badge-line card-badge"><span class="badge earned">\u2605 ' + esc(badge.earned.name) + '</span></div>' : '')
+    + '</div>'
     + '<div class="card-total"><span class="rank-badge">#' + row.rank + '</span><b>' + fmt(sc.total) + '</b><span>points</span></div></header>'
     + '<table class="breakdown">'
     + '<tr><td>Jobs</td><td class="num">' + fmt(sc.jobs) + '</td></tr>'

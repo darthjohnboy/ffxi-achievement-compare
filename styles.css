@@ -263,6 +263,7 @@ table.breakdown tr.total-row td.num { font-family: "Cinzel", serif; color: var(-
 .title-groups b { font-size: 1.15rem; }
 .title-groups i { display: block; font-style: normal; font-size: 0.75rem; color: var(--muted); }
 .badge-line { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
+.card-head .badge-line { margin: 0.35rem 0 0; }
 .group-block { margin-top: 0.8rem; }
 
 /* Who-has-what — vertical list of milestone cards */
