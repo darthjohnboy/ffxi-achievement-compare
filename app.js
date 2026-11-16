@@ -222,31 +222,38 @@ function milestoneValue(player, sync, check) {
   try { return check(player, sync); } catch (e) { return null; }
 }
 
+// Partial progress toward a milestone, for the "Name · have/need"
+// display in the who-has-what list. Returns { have, need } or null
+// when the milestone is boolean-only or the player has no data.
+function milestoneProgress(player, sync, m) {
+  try { return m.progress ? m.progress(player, sync) : null; } catch (e) { return null; }
+}
+
 const MILESTONES = [
-  { id: 'all99', label: 'All 22 jobs at 99', check: (p) => p.jobs ? Object.values(p.jobs).every((j) => j.level >= 99) : null },
-  { id: 'rank10', label: 'Nation Rank 10', check: (p) => p.nationRank == null ? null : p.nationRank >= 10 },
-  { id: 'mr7', label: 'Mastery Rank 7+', check: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : v >= 7; } },
-  { id: 'mr8', label: 'Mastery Rank 8', check: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : v >= 8; } },
-  { id: 'craft110', label: 'A craft at 110', check: (p) => p.crafts ? Object.values(p.crafts).some((v) => v >= 110) : null },
-  { id: 'fish110', label: 'Fishing 110', check: (p) => p.crafts ? (p.crafts.Fishing || 0) >= 110 : null },
-  { id: 'craft90', label: 'A craft at 90+', check: (p) => p.crafts ? Object.values(p.crafts).some((v) => v >= 90) : null },
-  { id: 't100', label: '100+ titles', check: (p, s) => s ? s.titles.completed >= 100 : null },
-  { id: 't250', label: '250+ titles', check: (p, s) => s ? s.titles.completed >= 250 : null },
-  { id: 't500', label: '500+ titles', check: (p, s) => s ? s.titles.completed >= 500 : null },
-  { id: 't750', label: '750+ titles', check: (p, s) => s ? s.titles.completed >= 750 : null },
-  { id: 't1000', label: '1,000+ titles', check: (p, s) => s ? s.titles.completed >= 1000 : null },
-  { id: 'ult10', label: '10+ ultimates', check: (p) => p.rema ? p.rema.length >= 10 : null },
-  { id: 'ult25', label: '25+ ultimates', check: (p) => p.rema ? p.rema.length >= 25 : null },
-  { id: 'ult40', label: '40+ ultimates', check: (p) => p.rema ? p.rema.length >= 40 : null },
+  { id: 'all99', label: 'All 22 jobs at 99', check: (p) => p.jobs ? Object.values(p.jobs).every((j) => j.level >= 99) : null, progress: (p) => p.jobs ? { have: Object.values(p.jobs).filter((j) => j.level >= 99).length, need: 22 } : null },
+  { id: 'rank10', label: 'Nation Rank 10', check: (p) => p.nationRank == null ? null : p.nationRank >= 10, progress: (p) => p.nationRank != null ? { have: p.nationRank, need: 10 } : null },
+  { id: 'mr7', label: 'Mastery Rank 7+', check: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : v >= 7; }, progress: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : { have: v, need: 7 }; } },
+  { id: 'mr8', label: 'Mastery Rank 8', check: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : v >= 8; }, progress: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : { have: v, need: 8 }; } },
+  { id: 'craft110', label: 'A craft at 110', check: (p) => p.crafts ? Object.values(p.crafts).some((v) => v >= 110) : null, progress: (p) => p.crafts ? { have: Math.max.apply(null, Object.values(p.crafts)), need: 110 } : null },
+  { id: 'fish110', label: 'Fishing 110', check: (p) => p.crafts ? (p.crafts.Fishing || 0) >= 110 : null, progress: (p) => p.crafts ? { have: (p.crafts.Fishing || 0), need: 110 } : null },
+  { id: 'craft90', label: 'A craft at 90+', check: (p) => p.crafts ? Object.values(p.crafts).some((v) => v >= 90) : null, progress: (p) => p.crafts ? { have: Math.max.apply(null, Object.values(p.crafts)), need: 90 } : null },
+  { id: 't100', label: '100+ titles', check: (p, s) => s ? s.titles.completed >= 100 : null, progress: (p, s) => s ? { have: s.titles.completed, need: 100 } : null },
+  { id: 't250', label: '250+ titles', check: (p, s) => s ? s.titles.completed >= 250 : null, progress: (p, s) => s ? { have: s.titles.completed, need: 250 } : null },
+  { id: 't500', label: '500+ titles', check: (p, s) => s ? s.titles.completed >= 500 : null, progress: (p, s) => s ? { have: s.titles.completed, need: 500 } : null },
+  { id: 't750', label: '750+ titles', check: (p, s) => s ? s.titles.completed >= 750 : null, progress: (p, s) => s ? { have: s.titles.completed, need: 750 } : null },
+  { id: 't1000', label: '1,000+ titles', check: (p, s) => s ? s.titles.completed >= 1000 : null, progress: (p, s) => s ? { have: s.titles.completed, need: 1000 } : null },
+  { id: 'ult10', label: '10+ ultimates', check: (p) => p.rema ? p.rema.length >= 10 : null, progress: (p) => p.rema ? { have: p.rema.length, need: 10 } : null },
+  { id: 'ult25', label: '25+ ultimates', check: (p) => p.rema ? p.rema.length >= 25 : null, progress: (p) => p.rema ? { have: p.rema.length, need: 25 } : null },
+  { id: 'ult40', label: '40+ ultimates', check: (p) => p.rema ? p.rema.length >= 40 : null, progress: (p) => p.rema ? { have: p.rema.length, need: 40 } : null },
   { id: 'rema119', label: 'A 119 REMA weapon', check: (p) => p.rema ? p.rema.some((r) => r.kind === 'rema' && r.stage === 119) : null },
   { id: 'lushang', label: 'Lu Shang\u2019s Fishing Rod', check: (p) => p.rema ? p.rema.some((r) => r.name.indexOf('Lu Shang') === 0) : null },
-  { id: 'merits', label: 'Merit Points capped', check: (p, s) => { if (!s) return null; const m = s.counts.meritpoints; return m && m.total > 0 ? m.completed >= m.total : null; } },
-  { id: 'roe400', label: 'RoE 400+', check: (p, s) => s ? s.roe.completed >= 400 : null },
-  { id: 'mis500', label: 'Missions 500+', check: (p, s) => s ? s.missions.completed >= 500 : null },
-  { id: 'que400', label: 'Quests 400+', check: (p, s) => s ? s.quests.completed >= 400 : null },
-  { id: 'warp300', label: 'Warps 300+', check: (p, s) => s ? s.warps.completed >= 300 : null },
-  { id: 'zone250', label: 'Zones 250+', check: (p, s) => { if (!s) return null; const z = s.counts.zones; return z ? z.completed >= 250 : null; } },
-  { id: 'play2000', label: 'Playtime 2,000+ hrs', check: (p, s) => s && s.scalars.playtime != null ? s.scalars.playtime >= 2000 : null },
+  { id: 'merits', label: 'Merit Points capped', check: (p, s) => { if (!s) return null; const m = s.counts.meritpoints; return m && m.total > 0 ? m.completed >= m.total : null; }, progress: (p, s) => { if (!s) return null; const m = s.counts.meritpoints; return m && m.total > 0 ? { have: m.completed, need: m.total } : null; } },
+  { id: 'roe400', label: 'RoE 400+', check: (p, s) => s ? s.roe.completed >= 400 : null, progress: (p, s) => s ? { have: s.roe.completed, need: 400 } : null },
+  { id: 'mis500', label: 'Missions 500+', check: (p, s) => s ? s.missions.completed >= 500 : null, progress: (p, s) => s ? { have: s.missions.completed, need: 500 } : null },
+  { id: 'que400', label: 'Quests 400+', check: (p, s) => s ? s.quests.completed >= 400 : null, progress: (p, s) => s ? { have: s.quests.completed, need: 400 } : null },
+  { id: 'warp300', label: 'Warps 300+', check: (p, s) => s ? s.warps.completed >= 300 : null, progress: (p, s) => s ? { have: s.warps.completed, need: 300 } : null },
+  { id: 'zone250', label: 'Zones 250+', check: (p, s) => { if (!s) return null; const z = s.counts.zones; return z ? z.completed >= 250 : null; }, progress: (p, s) => { if (!s) return null; const z = s.counts.zones; return z ? { have: z.completed, need: 250 } : null; } },
+  { id: 'play2000', label: 'Playtime 2,000+ hrs', check: (p, s) => s && s.scalars.playtime != null ? s.scalars.playtime >= 2000 : null, progress: (p, s) => s && s.scalars.playtime != null ? { have: s.scalars.playtime, need: 2000 } : null },
 ];
 
 /* ---------------- Live data (JSONP — see header note) ---------------- */
@@ -297,21 +304,15 @@ function groupBlock(title, fields, counts) {
 }
 
 function renderLeaderboard(rows) {
-  const el = document.getElementById('leaderboard-body');
+  const el = document.getElementById('leaderboard-list');
   if (!el) return;
   el.innerHTML = rows.map((r) => {
     const s = r.scores;
-    return '<tr class="rank-' + r.rank + '">'
-      + '<td class="rank">#' + r.rank + '</td>'
-      + '<td><a href="#card-' + esc(r.player.id) + '" class="name-link">' + esc(r.player.name) + '</a></td>'
-      + '<td class="num total">' + fmt(s.total) + '</td>'
-      + '<td class="num">' + fmt(s.jobs) + '</td>'
-      + '<td class="num">' + fmt(s.crafts) + '</td>'
-      + '<td class="num">' + fmt(s.rema) + '</td>'
-      + '<td class="num">' + fmt(s.titles) + '</td>'
-      + '<td class="num">' + fmt(s.checklist) + '</td>'
-      + '<td>' + (r.sync ? '<span class="pill synced">Synced ' + esc(shortDateTime(r.sync.syncedAt)) + '</span>' : '<span class="pill not-synced">Not synced yet</span>') + '</td>'
-      + '</tr>';
+    return '<a class="lb-row rank-' + r.rank + '" href="#card-' + esc(r.player.id) + '">'
+      + '<span class="rank-circle">' + r.rank + '</span>'
+      + '<span class="lb-name">' + esc(r.player.name) + '</span>'
+      + '<span class="lb-points">' + fmt(s.total) + '</span>'
+      + '</a>';
   }).join('');
 }
 
@@ -339,14 +340,15 @@ function renderCard(row) {
     + '<header class="card-head"><div><h3>' + esc(p.name) + '</h3>'
     + '<div class="sub">' + esc(p.server || '') + (p.nation ? ' &middot; ' + esc(p.nation) + (p.nationRank != null ? ' Rank ' + p.nationRank : '') : '') + '</div></div>'
     + '<div class="card-total"><span class="rank-badge">#' + row.rank + '</span><b>' + fmt(sc.total) + '</b><span>points</span></div></header>'
-    + '<div class="breakdown">'
-    + '<div><span>Jobs</span><b>' + fmt(sc.jobs) + '</b></div>'
-    + '<div><span>Master Levels</span><b>' + fmt(sc.masterLevels) + '</b></div>'
-    + '<div><span>Crafts</span><b>' + fmt(sc.crafts) + '</b></div>'
-    + '<div><span>Relics</span><b>' + fmt(sc.rema) + '</b></div>'
-    + '<div><span>Titles</span><b>' + fmt(sc.titles) + '</b></div>'
-    + '<div><span>Checklist</span><b>' + fmt(sc.checklist) + '</b></div>'
-    + '</div>';
+    + '<table class="breakdown">'
+    + '<tr><td>Jobs</td><td class="num">' + fmt(sc.jobs) + '</td></tr>'
+    + '<tr><td>Master Levels</td><td class="num">' + fmt(sc.masterLevels) + '</td></tr>'
+    + '<tr><td>Crafts</td><td class="num">' + fmt(sc.crafts) + '</td></tr>'
+    + '<tr><td>Relics</td><td class="num">' + fmt(sc.rema) + '</td></tr>'
+    + '<tr><td>Titles</td><td class="num">' + fmt(sc.titles) + '</td></tr>'
+    + '<tr><td>Checklist</td><td class="num">' + fmt(sc.checklist) + '</td></tr>'
+    + '<tr class="total-row"><td>Total</td><td class="num">' + fmt(sc.total) + '</td></tr>'
+    + '</table>';
   if (p.title) html += '<p class="flavor">\u201c' + esc(p.title) + '\u201d</p>';
   if (p.linkshells && p.linkshells.length) html += '<p class="linkshells">Linkshells: ' + p.linkshells.map(esc).join(', ') + '</p>';
   if (p.masteryRank != null) html += '<p class="meta-line">Mastery Rank ' + p.masteryRank + '</p>';
@@ -366,7 +368,7 @@ function renderJobs(p) {
   const tiles = order.map((abbr) => {
     const j = p.jobs[abbr];
     if (!j) return '';
-    return '<div class="job-tile"><span class="job-abbr">' + abbr + '</span><b>' + j.level + '</b>' + (j.ml != null ? '<span class="ml">ML ' + j.ml + '</span>' : '<span class="ml na">ML ?</span>') + '</div>';
+    return '<div class="job-tile' + (j.level >= 99 ? ' max' : '') + '"><span class="job-abbr">' + abbr + '</span><b>' + j.level + '</b>' + (j.ml != null ? '<span class="ml">ML ' + j.ml + '</span>' : '<span class="ml na">ML ?</span>') + '</div>';
   }).join('');
   return '<section class="detail-section"><h4>Jobs — all 22 at 99</h4><div class="job-grid">' + tiles + '</div></section>';
 }
@@ -382,11 +384,11 @@ function renderRema(p) {
   const at119 = p.rema.filter((r) => r.kind === 'rema' && r.stage === 119);
   const other = p.rema.filter((r) => r.kind === 'rema' && r.stage !== 119);
   const extras = p.rema.filter((r) => r.kind !== 'rema');
-  const li = (r) => '<li>' + esc(r.name) + (r.stage ? ' <span class="stage">' + r.stage + '</span>' : '') + '</li>';
+  const chip = (r) => '<span class="chip">' + esc(r.name) + (r.stage ? ' <span class="stage">' + r.stage + '</span>' : '') + '</span>';
   return '<section class="detail-section"><h4>Ultimates (' + p.rema.length + ')</h4>'
-    + '<h5>119 (' + at119.length + ')</h5><ul class="rema-list">' + at119.map(li).join('') + '</ul>'
-    + (other.length ? '<h5>Below 119 (' + other.length + ')</h5><ul class="rema-list">' + other.map(li).join('') + '</ul>' : '')
-    + (extras.length ? '<h5>Extras</h5><ul class="rema-list">' + extras.map(li).join('') + '</ul>' : '')
+    + '<h5>119 (' + at119.length + ')</h5><div>' + at119.map(chip).join('') + '</div>'
+    + (other.length ? '<h5>Below 119 (' + other.length + ')</h5><div>' + other.map(chip).join('') + '</div>' : '')
+    + (extras.length ? '<h5>Extras</h5><div>' + extras.map(chip).join('') + '</div>' : '')
     + '</section>';
 }
 
@@ -396,9 +398,9 @@ function renderSync(s) {
       + '<p class="na">Not synced yet — install the XIchecklist autosync fork and zone once, and titles, Records of Eminence, missions, quests and warps will fill in here automatically.</p></section>';
   }
   const badge = badgeFor(s.titles.completed);
-  let html = '<section class="detail-section sync-section"><h4>Checklist sync <span class="pill synced">Synced ' + esc(shortDateTime(s.syncedAt)) + '</span></h4>';
+  let html = '<section class="detail-section sync-section"><h4>Checklist sync <span class="pill teal">Synced ' + esc(shortDateTime(s.syncedAt)) + '</span></h4>';
   html += '<div class="badge-line">' + (badge.earned
-    ? '<span class="badge earned">' + esc(badge.earned.name) + ' — ' + badge.earned.at + ' titles</span>'
+    ? '<span class="badge earned">\u2605 ' + esc(badge.earned.name) + ' — ' + badge.earned.at + ' titles</span>'
     : '<span class="badge">No title badge yet</span>')
     + (badge.next ? '<span class="badge-next">Next badge: ' + badge.next.at + ' titles (' + fmt(s.titles.completed) + '/' + badge.next.at + ')</span>' : '<span class="badge-next">Top badge earned</span>')
     + '</div>';
@@ -434,18 +436,20 @@ function renderSync(s) {
 }
 
 function renderMatrix(rows) {
-  const el = document.getElementById('matrix-body');
+  const el = document.getElementById('matrix-list');
   if (!el) return;
-  const head = document.getElementById('matrix-head');
-  if (head) {
-    head.innerHTML = '<th>Milestone</th>' + rows.map((r) => '<th>' + esc(r.player.name) + '</th>').join('');
-  }
   el.innerHTML = MILESTONES.map((m) => {
-    const cells = rows.map((r) => {
+    const spans = rows.map((r) => {
       const v = milestoneValue(r.player, r.sync, m.check);
-      return '<td class="' + (v === true ? 'yes' : v === false ? 'no' : 'unknown') + '">' + (v === true ? '\u2713' : v === false ? '\u2014' : '?') + '</td>';
+      if (v === true) return '<span class="has">\u2713 ' + esc(r.player.name) + '</span>';
+      if (v === false) {
+        const prog = milestoneProgress(r.player, r.sync, m);
+        if (prog) return '<span class="prog">' + esc(r.player.name) + ' \u00b7 ' + fmt(prog.have) + '/' + fmt(prog.need) + '</span>';
+        return '<span class="no">' + esc(r.player.name) + ' \u00b7 \u2014</span>';
+      }
+      return '<span class="unknown">' + esc(r.player.name) + ' \u00b7 ?</span>';
     }).join('');
-    return '<tr><td class="ms-label">' + esc(m.label) + '</td>' + cells + '</tr>';
+    return '<article class="ms-card"><h4>' + esc(m.label) + '</h4><div class="ms-players">' + spans + '</div></article>';
   }).join('');
 }
 
@@ -507,7 +511,8 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     scoreJobs, scoreCrafts, scoreRema, scoreTitles, scoreChecklist, scoreMasterLevels,
     normalizeSync, scorePlayer, computeBoard, badgeFor, sumFields,
-    loadLiveData, shortDateTime,
+    loadLiveData, shortDateTime, renderLeaderboard, renderCard, renderMatrix,
+    milestoneProgress,
     MILESTONES, MISSION_FIELDS, QUEST_FIELDS, WARP_FIELDS, KEY_ITEM_FIELDS,
     TITLE_RATES, CHECK_RATES, ML_RATE,
   };

@@ -4,33 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FFXI Achievement Compare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="site-header">
+<div class="wrap">
+<header class="hero">
   <h1 id="page-title">FFXI Achievement Compare</h1>
   <p id="page-subtitle">Quetzalcoatl crew — jobs, crafts, relics, titles and checklist progress</p>
-  <p id="sync-status" class="sync-status">Loading…</p>
-  <p id="last-updated" class="last-updated"></p>
 </header>
+<p id="sync-status" class="sync-status">Loading…</p>
+<p id="last-updated" class="last-updated"></p>
 
 <main>
   <section aria-labelledby="leaderboard-heading">
     <h2 id="leaderboard-heading">Leaderboard</h2>
-    <div class="table-wrap">
-      <table class="leaderboard">
-        <thead>
-          <tr>
-            <th>Rank</th><th>Character</th><th>Points</th><th>Jobs</th><th>Crafts</th><th>Relics</th><th>Titles</th><th>Checklist</th><th>Sync</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-body"></tbody>
-      </table>
-    </div>
+    <div id="leaderboard-list" class="leaderboard-list"></div>
   </section>
 
   <section aria-labelledby="crew-heading">
-    <h2 id="crew-heading">Crew board</h2>
+    <h2 id="crew-heading">The crew</h2>
     <p class="hint">Click a character card to expand it. Jobs, crafts and relics come from FFXIAH (frozen at the last scrape); titles, Records of Eminence, missions, quests and warps come from live XIchecklist syncs.</p>
     <div id="cards" class="cards"></div>
   </section>
@@ -38,25 +33,25 @@
   <section aria-labelledby="matrix-heading">
     <h2 id="matrix-heading">Who has what</h2>
     <p class="hint">✓ has it, — doesn’t, ? unknown (not synced yet, or the FFXIAH page is empty).</p>
-    <div class="table-wrap">
-      <table class="matrix">
-        <thead><tr id="matrix-head"><th>Milestone</th></tr></thead>
-        <tbody id="matrix-body"></tbody>
-      </table>
-    </div>
+    <div id="matrix-list" class="matrix-list"></div>
   </section>
 
   <section aria-labelledby="rules-heading" class="rules">
-    <h2 id="rules-heading">How the points work</h2>
-    <ul>
-      <li><b>Jobs:</b> 1 point per level + 100 per job at 99.</li>
-      <li><b>Master Levels:</b> 1 point per Master Level.</li>
-      <li><b>Crafts:</b> 2 points per level up to 70 per craft + 1 bonus point per level over 70.</li>
-      <li><b>Relics / ultimates:</b> 250 per 119, 150 per 99-or-below REMA, 50 per extra (fishing rod, escutcheon).</li>
-      <li><b>Titles:</b> quest 10, mission 20, NM 25, battlefield 50, Master Trials / endgame 100, ungrouped 0.</li>
-      <li><b>Checklist:</b> Records of Eminence 5, missions 5, quests 10, warps 5, key items 2 — per completed item.</li>
-      <li><b>Title badges:</b> 100 / 250 / 500 / 750 / 1,000 titles.</li>
-    </ul>
+    <details class="rules-card">
+      <summary id="rules-heading">How the points work</summary>
+      <table class="scoring">
+        <thead><tr><th>Category</th><th>Points</th></tr></thead>
+        <tbody>
+          <tr><td>Jobs</td><td class="num">1 per level + 100 per job at 99</td></tr>
+          <tr><td>Master Levels</td><td class="num">1 per Master Level</td></tr>
+          <tr><td>Crafts</td><td class="num">2 per level up to 70 per craft + 1 bonus point per level over 70</td></tr>
+          <tr><td>Relics / ultimates</td><td class="num">250 per 119, 150 per 99-or-below REMA, 50 per extra (fishing rod, escutcheon)</td></tr>
+          <tr><td>Titles</td><td class="num">quest 10, mission 20, NM 25, battlefield 50, Master Trials / endgame 100, ungrouped 0</td></tr>
+          <tr><td>Checklist</td><td class="num">Records of Eminence 5, missions 5, quests 10, warps 5, key items 2 — per completed item</td></tr>
+          <tr><td>Title badges</td><td class="num">100 / 250 / 500 / 750 / 1,000 titles</td></tr>
+        </tbody>
+      </table>
+    </details>
     <p class="fine-print">Baseline jobs, crafts and relics are FFXIAH snapshots from 2026-11-15 and only change when someone re-scrapes. Synced data comes from the XIchecklist autosync fork via the Google Form receiver. New buddies join through John: character name + server for the FFXIAH scrape, then the fork for live syncs.</p>
   </section>
 </main>
@@ -64,6 +59,7 @@
 <footer class="site-footer">
   <p>Not affiliated with Square Enix. Final Fantasy XI is a registered trademark of Square Enix.</p>
 </footer>
+</div>
 
 <script src="app.js"></script>
 </body>
