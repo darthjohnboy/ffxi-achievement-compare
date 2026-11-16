@@ -412,7 +412,7 @@ function renderSync(s) {
   html += groupBlock('Quests by region', QUEST_FIELDS, s.counts);
   html += groupBlock('Warps', WARP_FIELDS, s.counts);
   html += groupBlock('Key items', KEY_ITEM_FIELDS, s.counts);
-  html += groupBlock('Magic &amp; trusts', MAGIC_FIELDS, s.counts);
+  html += groupBlock('Magic & trusts', MAGIC_FIELDS, s.counts);
   const z = s.counts.zones, mp = s.counts.meritpoints, ml = s.counts.masterlevels, jp = s.counts.jobpoints;
   if (z) html += countRow('Zones visited', z);
   if (mp) html += countRow('Merit Points', mp);
