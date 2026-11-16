@@ -310,7 +310,7 @@ function renderLeaderboard(rows) {
       + '<td class="num">' + fmt(s.rema) + '</td>'
       + '<td class="num">' + fmt(s.titles) + '</td>'
       + '<td class="num">' + fmt(s.checklist) + '</td>'
-      + '<td>' + (r.sync ? '<span class="pill synced">Synced ' + esc(shortDate(r.sync.syncedAt)) + '</span>' : '<span class="pill not-synced">Not synced yet</span>') + '</td>'
+      + '<td>' + (r.sync ? '<span class="pill synced">Synced ' + esc(shortDateTime(r.sync.syncedAt)) + '</span>' : '<span class="pill not-synced">Not synced yet</span>') + '</td>'
       + '</tr>';
   }).join('');
 }
@@ -320,6 +320,16 @@ function shortDate(iso) {
   const d = new Date(iso);
   if (isNaN(d.getTime())) return '';
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// Sync timestamps show date + time ("Nov 16, 2026, 8:39 AM") so a
+// card's freshness is visible at a glance. Rendered in the viewer's
+// local timezone by toLocaleString.
+function shortDateTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
 
 function renderCard(row) {
@@ -386,7 +396,7 @@ function renderSync(s) {
       + '<p class="na">Not synced yet — install the XIchecklist autosync fork and zone once, and titles, Records of Eminence, missions, quests and warps will fill in here automatically.</p></section>';
   }
   const badge = badgeFor(s.titles.completed);
-  let html = '<section class="detail-section sync-section"><h4>Checklist sync <span class="pill synced">Synced ' + esc(shortDate(s.syncedAt)) + '</span></h4>';
+  let html = '<section class="detail-section sync-section"><h4>Checklist sync <span class="pill synced">Synced ' + esc(shortDateTime(s.syncedAt)) + '</span></h4>';
   html += '<div class="badge-line">' + (badge.earned
     ? '<span class="badge earned">' + esc(badge.earned.name) + ' — ' + badge.earned.at + ' titles</span>'
     : '<span class="badge">No title badge yet</span>')
@@ -454,7 +464,7 @@ function renderAll(baseline, liveByName, statusText, statusKind) {
   const updatedEl = document.getElementById('last-updated');
   if (updatedEl) {
     const latest = rows.map((r) => r.sync && r.sync.syncedAt).filter(Boolean).sort().pop();
-    updatedEl.textContent = latest ? 'Last sync: ' + shortDate(latest) : 'Baseline: ' + esc(baseline.meta.baseline_date);
+    updatedEl.textContent = latest ? 'Last sync: ' + shortDateTime(latest) : 'Baseline: ' + esc(baseline.meta.baseline_date);
   }
 }
 
@@ -497,7 +507,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     scoreJobs, scoreCrafts, scoreRema, scoreTitles, scoreChecklist, scoreMasterLevels,
     normalizeSync, scorePlayer, computeBoard, badgeFor, sumFields,
-    loadLiveData,
+    loadLiveData, shortDateTime,
     MILESTONES, MISSION_FIELDS, QUEST_FIELDS, WARP_FIELDS, KEY_ITEM_FIELDS,
     TITLE_RATES, CHECK_RATES, ML_RATE,
   };
