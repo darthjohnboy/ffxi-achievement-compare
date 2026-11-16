@@ -1,4 +1,4 @@
-# FFXI Achievement Compare — standalone site: deploy guide
+# Checklist Comparison — standalone site: deploy guide
 
 The compare page as a public site that is **not tied to Muse**. Static files
 plus a small Google Apps Script that serves live XIchecklist syncs. No build

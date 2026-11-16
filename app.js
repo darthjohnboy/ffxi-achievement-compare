@@ -1,7 +1,7 @@
 'use strict';
 
 /* =====================================================================
-   FFXI Achievement Compare — standalone site
+   Checklist Comparison — standalone site
    - Baseline data (FFXIAH, 2026-11-15) lives in data/baseline.json.
    - Live XIchecklist syncs come from the Google Apps Script web app
      below, which reads the "FFXI Achievement Sync" Google Form,
@@ -701,7 +701,7 @@ function init() {
   return fetch('data/baseline.json')
     .then((res) => { if (!res.ok) throw new Error('baseline.json could not be loaded'); return res.json(); })
     .then((baseline) => {
-      document.getElementById('page-title').textContent = baseline.meta.title || 'FFXI Achievement Compare';
+      document.getElementById('page-title').textContent = baseline.meta.title || 'Checklist Comparison';
       document.getElementById('page-subtitle').textContent = baseline.meta.subtitle || '';
       if (!API_URL) {
         renderAll(baseline, null, 'Sync API not configured — showing baseline data only.', 'warn');
