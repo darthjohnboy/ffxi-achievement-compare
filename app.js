@@ -231,7 +231,8 @@ const CRAFT_KEY_ALIASES = { Leathercraft: 'Leathercrafting' };
 
 // Effective (merged) values for one player: synced fields win, baseline
 // fills anything the sync didn't send. Jobs/crafts merge per key;
-// REMA replaces wholesale (an array can't merge per key).
+// REMA replaces wholesale (an array can't merge per key). Mastery Rank
+// takes the sync scalar when present, baseline otherwise.
 function effectiveJobs(player, sync) {
   if (!sync || !sync.jobs) return player.jobs || null;
   const base = player.jobs || {};
@@ -309,6 +310,7 @@ function scorePlayer(player, livePayload) {
     jobs: effectiveJobs(player, sync),
     crafts: effectiveCrafts(player, sync),
     rema: effectiveRema(player, sync),
+    masteryRank: sync && sync.scalars && sync.scalars.mastery_rank != null ? sync.scalars.mastery_rank : player.masteryRank,
   });
   const jobs = scoreJobs(effective);
   const masterLevels = scoreMasterLevels(player, sync);
@@ -348,8 +350,8 @@ function milestoneProgress(player, sync, m) {
 const MILESTONES = [
   { id: 'all99', label: 'All 22 jobs at 99', check: (p) => p.jobs ? Object.values(p.jobs).every((j) => j.level >= 99) : null, progress: (p) => p.jobs ? { have: Object.values(p.jobs).filter((j) => j.level >= 99).length, need: 22 } : null },
   { id: 'rank10', label: 'Nation Rank 10', check: (p) => p.nationRank == null ? null : p.nationRank >= 10, progress: (p) => p.nationRank != null ? { have: p.nationRank, need: 10 } : null },
-  { id: 'mr7', label: 'Mastery Rank 7+', check: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : v >= 7; }, progress: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : { have: v, need: 7 }; } },
-  { id: 'mr8', label: 'Mastery Rank 8', check: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : v >= 8; }, progress: (p, s) => { const v = p.masteryRank != null ? p.masteryRank : (s && s.scalars.mastery_rank); return v == null ? null : { have: v, need: 8 }; } },
+  { id: 'mr7', label: 'Mastery Rank 7+', check: (p, s) => { const v = s && s.scalars && s.scalars.mastery_rank != null ? s.scalars.mastery_rank : p.masteryRank; return v == null ? null : v >= 7; }, progress: (p, s) => { const v = s && s.scalars && s.scalars.mastery_rank != null ? s.scalars.mastery_rank : p.masteryRank; return v == null ? null : { have: v, need: 7 }; } },
+  { id: 'mr8', label: 'Mastery Rank 8', check: (p, s) => { const v = s && s.scalars && s.scalars.mastery_rank != null ? s.scalars.mastery_rank : p.masteryRank; return v == null ? null : v >= 8; }, progress: (p, s) => { const v = s && s.scalars && s.scalars.mastery_rank != null ? s.scalars.mastery_rank : p.masteryRank; return v == null ? null : { have: v, need: 8 }; } },
   { id: 'craft110', label: 'A craft at 110', check: (p) => p.crafts ? Object.values(p.crafts).some((v) => v >= 110) : null, progress: (p) => p.crafts ? { have: Math.max.apply(null, Object.values(p.crafts)), need: 110 } : null },
   { id: 'fish110', label: 'Fishing 110', check: (p) => p.crafts ? (p.crafts.Fishing || 0) >= 110 : null, progress: (p) => p.crafts ? { have: (p.crafts.Fishing || 0), need: 110 } : null },
   { id: 'craft90', label: 'A craft at 90+', check: (p) => p.crafts ? Object.values(p.crafts).some((v) => v >= 90) : null, progress: (p) => p.crafts ? { have: Math.max.apply(null, Object.values(p.crafts)), need: 90 } : null },
@@ -569,7 +571,7 @@ function renderCard(row) {
     + '</table>';
   if (p.title) html += '<p class="flavor">\u201c' + esc(p.title) + '\u201d</p>';
   if (p.linkshells && p.linkshells.length) html += '<p class="linkshells">Linkshells: ' + p.linkshells.map(esc).join(', ') + '</p>';
-  if (p.masteryRank != null) html += '<p class="meta-line">Mastery Rank ' + p.masteryRank + '</p>';
+  if (row.effective.masteryRank != null) html += '<p class="meta-line">Mastery Rank ' + row.effective.masteryRank + '</p>';
 
   html += '<div class="card-detail">';
   html += renderJobs(row.effective.jobs);
