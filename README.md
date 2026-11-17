@@ -50,6 +50,8 @@ configured". Part 2 wires up the live syncs.
    - `KEY_Derk`
    - `KEY_Meeze`
    - `KEY_Rajatia`
+   - `KEY_Karuktah`
+   - `KEY_Snaffu`
    - The **values** come from John's private key list (the one he generated
      for himself, plus the ones given to him in chat). **Never put a key
      value in the script, in the repo, or on the site.** If a player has no

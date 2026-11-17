@@ -5,7 +5,8 @@
   "notes": [
    "FFXIAH job figures are Master Levels, shown separately from the level (all listed jobs are 99).",
    "Crafts cap at 70 per craft except the one craft taken to 110; Synergy caps at 80.",
-   "A null field means 'not available' (private or empty FFXIAH page) \u2014 never a guess."
+   "A null field means 'not available' (private or empty FFXIAH page) \u2014 never a guess.",
+   "Snaffu added 2026-11-17 from his FFXIAH profile (jobs/crafts only); his Master Levels and REMA come from his live sync \u2014 FFXIAH had not re-scanned him since 10/17/2025 and showed 0 MLs / no weapons, which the sync proves stale."
   ],
   "scoring": {
    "badges": "title badges at 100 / 250 / 500 / 750 / 1,000 titles",
@@ -1233,6 +1234,117 @@
    "server": "Quetzalcoatl",
    "sync": null,
    "title": null
+  },
+  {
+   "crafts": {
+    "Alchemy": 2,
+    "Bonecraft": 28,
+    "Clothcraft": 64,
+    "Cooking": 0,
+    "Fishing": 0,
+    "Goldsmithing": 66,
+    "Leathercrafting": 108,
+    "Smithing": 62,
+    "Synergy": 0,
+    "Woodworking": 14
+   },
+   "id": "snaffu",
+   "jobs": {
+    "BLM": {
+     "level": 99,
+     "ml": null
+    },
+    "BLU": {
+     "level": 99,
+     "ml": null
+    },
+    "BRD": {
+     "level": 99,
+     "ml": null
+    },
+    "BST": {
+     "level": 99,
+     "ml": null
+    },
+    "COR": {
+     "level": 99,
+     "ml": null
+    },
+    "DNC": {
+     "level": 99,
+     "ml": null
+    },
+    "DRG": {
+     "level": 99,
+     "ml": null
+    },
+    "DRK": {
+     "level": 99,
+     "ml": null
+    },
+    "GEO": {
+     "level": 99,
+     "ml": null
+    },
+    "MNK": {
+     "level": 99,
+     "ml": null
+    },
+    "NIN": {
+     "level": 99,
+     "ml": null
+    },
+    "PLD": {
+     "level": 99,
+     "ml": null
+    },
+    "PUP": {
+     "level": 1,
+     "ml": null
+    },
+    "RDM": {
+     "level": 99,
+     "ml": null
+    },
+    "RNG": {
+     "level": 99,
+     "ml": null
+    },
+    "RUN": {
+     "level": 1,
+     "ml": null
+    },
+    "SAM": {
+     "level": 99,
+     "ml": null
+    },
+    "SCH": {
+     "level": 99,
+     "ml": null
+    },
+    "SMN": {
+     "level": 99,
+     "ml": null
+    },
+    "THF": {
+     "level": 99,
+     "ml": null
+    },
+    "WAR": {
+     "level": 99,
+     "ml": null
+    },
+    "WHM": {
+     "level": 99,
+     "ml": null
+    }
+   },
+   "linkshells": null,
+   "masteryRank": null,
+   "name": "Snaffu",
+   "nation": null,
+   "nationRank": null,
+   "rema": []
   }
  ]
 }
