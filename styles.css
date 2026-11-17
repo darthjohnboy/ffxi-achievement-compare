@@ -234,6 +234,10 @@ table.breakdown tr.total-row td.num { font-family: "Cinzel", serif; color: var(-
 
 .detail-section { margin-top: 1rem; border-top: 1px solid var(--line); padding-top: 0.75rem; }
 .detail-section h4 { font-family: "Cinzel", serif; margin: 0 0 0.5rem; }
+details.collapse > summary { font-family: "Cinzel", serif; font-weight: 700; font-size: 1rem; cursor: pointer; list-style: none; margin: 0 0 0.5rem; }
+details.collapse > summary::-webkit-details-marker { display: none; }
+details.collapse > summary::before { content: "\25B8  "; }
+details.collapse[open] > summary::before { content: "\25BE  "; }
 .detail-section h5 { margin: 0.6rem 0 0.3rem; color: var(--muted); font-size: 0.9rem; }
 .na { color: var(--muted); font-style: italic; }
 .note { color: var(--muted); font-size: 0.85rem; }

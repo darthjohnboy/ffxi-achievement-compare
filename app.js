@@ -598,7 +598,7 @@ function renderJobs(jobs) {
   }).join('');
   const codes = Object.keys(jobs);
   const allMax = codes.length === 22 && codes.every((c) => jobs[c].level >= 99);
-  return '<section class="detail-section"><h4>' + (allMax ? 'Jobs — all 22 at 99' : 'Jobs') + '</h4><div class="job-grid">' + tiles + '</div></section>';
+  return '<section class="detail-section"><details class="collapse" open><summary>' + (allMax ? 'Jobs — all 22 at 99' : 'Jobs') + '</summary><div class="job-grid">' + tiles + '</div></details></section>';
 }
 
 function renderCrafts(crafts) {
@@ -613,11 +613,11 @@ function renderRema(rema) {
   const other = rema.filter((r) => r.kind === 'rema' && r.stage !== 119);
   const extras = rema.filter((r) => r.kind !== 'rema');
   const chip = (r) => '<span class="chip">' + esc(r.name) + (r.stage ? ' <span class="stage">' + r.stage + '</span>' : '') + '</span>';
-  return '<section class="detail-section"><h4>Ultimates (' + rema.length + ')</h4>'
+  return '<section class="detail-section"><details class="collapse" open><summary>Ultimates (' + rema.length + ')</summary>'
     + '<h5>119 (' + at119.length + ')</h5><div>' + at119.map(chip).join('') + '</div>'
     + (other.length ? '<h5>Below 119 (' + other.length + ')</h5><div>' + other.map(chip).join('') + '</div>' : '')
     + (extras.length ? '<h5>Extras</h5><div>' + extras.map(chip).join('') + '</div>' : '')
-    + '</section>';
+    + '</details></section>';
 }
 
 function renderSync(s) {
@@ -626,7 +626,7 @@ function renderSync(s) {
       + '<p class="na">Not synced yet — install the XIchecklist autosync fork and zone once, and titles, Records of Eminence, missions, quests and warps will fill in here automatically.</p></section>';
   }
   const badge = badgeFor(s.titles.completed);
-  let html = '<section class="detail-section sync-section"><h4>Checklist sync <span class="pill teal">Synced ' + esc(shortDateTime(s.syncedAt)) + '</span></h4>';
+  let html = '<section class="detail-section sync-section"><details class="collapse"><summary>Checklist sync <span class="pill teal">Synced ' + esc(shortDateTime(s.syncedAt)) + '</span></summary>';
   html += '<div class="badge-line">' + (badge.earned
     ? '<span class="badge earned">\u2605 ' + esc(badge.earned.name) + ' — ' + badge.earned.at + ' titles</span>'
     : '<span class="badge">No title badge yet</span>')
@@ -659,7 +659,7 @@ function renderSync(s) {
   if (ml) html += countRow('Master Levels (total)', ml);
   if (jp) html += countRow('Job Points', jp);
   if (s.scalars.playtime != null) html += '<p class="meta-line">Playtime: ' + fmt(s.scalars.playtime) + ' hours &middot; Highest Master Level: ' + (s.scalars.masterlevels_highest != null ? s.scalars.masterlevels_highest : '?') + '</p>';
-  html += '</section>';
+  html += '</details></section>';
   return html;
 }
 
