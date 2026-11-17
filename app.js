@@ -230,9 +230,11 @@ function normalizeSyncRema(rema) {
 const CRAFT_KEY_ALIASES = { Leathercraft: 'Leathercrafting' };
 
 // Effective (merged) values for one player: synced fields win, baseline
-// fills anything the sync didn't send. Jobs/crafts merge per key;
-// REMA replaces wholesale (an array can't merge per key). Mastery Rank
-// takes the sync scalar when present, baseline otherwise.
+// fills anything the sync didn't send. Jobs/crafts merge per key; REMA
+// merges per weapon name — the sync updates each weapon it found, and
+// baseline weapons the inventory scan couldn't see (Wardrobes 5-8,
+// storage slips) stay on the card. Mastery Rank takes the sync scalar
+// when present, baseline otherwise.
 function effectiveJobs(player, sync) {
   if (!sync || !sync.jobs) return player.jobs || null;
   const base = player.jobs || {};
@@ -260,7 +262,11 @@ function effectiveCrafts(player, sync) {
 
 function effectiveRema(player, sync) {
   if (!sync || !sync.rema) return player.rema || null;
-  return sync.rema;
+  const byName = new Map();
+  for (const r of (player.rema || [])) byName.set(r.name, { kind: r.kind, name: r.name, stage: r.stage });
+  for (const r of sync.rema) byName.set(r.name, { kind: r.kind, name: r.name, stage: r.stage });
+  const out = [...byName.values()];
+  return out.length ? out : null;
 }
 
 // Turn a raw sync payload (as served by the Apps Script) into the
