@@ -598,7 +598,7 @@ function renderJobs(jobs) {
   }).join('');
   const codes = Object.keys(jobs);
   const allMax = codes.length === 22 && codes.every((c) => jobs[c].level >= 99);
-  return '<section class="detail-section"><details class="collapse" open><summary>' + (allMax ? 'Jobs — all 22 at 99' : 'Jobs') + '</summary><div class="job-grid">' + tiles + '</div></details></section>';
+  return '<section class="detail-section"><details class="collapse"><summary>' + (allMax ? 'Jobs — all 22 at 99' : 'Jobs') + '</summary><div class="job-grid">' + tiles + '</div></details></section>';
 }
 
 function renderCrafts(crafts) {
@@ -613,7 +613,7 @@ function renderRema(rema) {
   const other = rema.filter((r) => r.kind === 'rema' && r.stage !== 119);
   const extras = rema.filter((r) => r.kind !== 'rema');
   const chip = (r) => '<span class="chip">' + esc(r.name) + (r.stage ? ' <span class="stage">' + r.stage + '</span>' : '') + '</span>';
-  return '<section class="detail-section"><details class="collapse" open><summary>Ultimates (' + rema.length + ')</summary>'
+  return '<section class="detail-section"><details class="collapse"><summary>Ultimates (' + rema.length + ')</summary>'
     + '<h5>119 (' + at119.length + ')</h5><div>' + at119.map(chip).join('') + '</div>'
     + (other.length ? '<h5>Below 119 (' + other.length + ')</h5><div>' + other.map(chip).join('') + '</div>' : '')
     + (extras.length ? '<h5>Extras</h5><div>' + extras.map(chip).join('') + '</div>' : '')
