@@ -264,7 +264,15 @@ function effectiveRema(player, sync) {
   if (!sync || !sync.rema) return player.rema || null;
   const byName = new Map();
   for (const r of (player.rema || [])) byName.set(r.name, { kind: r.kind, name: r.name, stage: r.stage });
-  for (const r of sync.rema) byName.set(r.name, { kind: r.kind, name: r.name, stage: r.stage });
+  for (const r of sync.rema) {
+    const prev = byName.get(r.name);
+    // A sync sighting with no stage is a pre-ilvl weapon: res.items has
+    // no item_level below 99, so the scan cannot tell its stage. Keep
+    // the baseline stage instead of blanking it; a later sync at 99/119
+    // carries a stage and overwrites as normal.
+    const stage = (r.stage != null) ? r.stage : (prev ? prev.stage : null);
+    byName.set(r.name, { kind: r.kind, name: r.name, stage });
+  }
   const out = [...byName.values()];
   return out.length ? out : null;
 }
